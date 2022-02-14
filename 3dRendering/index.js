@@ -8,7 +8,7 @@ var grd = ctx.createLinearGradient(0, 200, 200, 0);
 grd.addColorStop(0, "red");
 grd.addColorStop(1, "blue");
 
-let angle = 0;
+let angle = 45;
 var points = []
 var polygons = []
 var size = 100;
@@ -78,15 +78,19 @@ let shear = [
 
 function projectPoints(){
   for(var i = 0; i < points.length; i++){
-    //var rotated = multiplyMatrices(pointMatrix, rotationX)
+    var rotated = matMul(rotationY, pointMatrix)
+    console.log(rotated)
     //var rotated = multiplyMatrices(pointMatrix, rotationY)
-    mulMat(rotationY, pointMatrix)
+    var test
+    var rotated2 = multiplyMatrices(pointMatrix, rotationY)
+    console.log(rotated2)
+    //rotated = matMul(rotationX, rotated)
     //console.log("rotated: ", rotated)
-    //rotated = multiplyMatrices(rotated, shear)
-    //var Projected2dPoint = multiplyMatrices(rotated, projection)
-    //points[i].sx = Projected2dPoint[i][0];
-    //points[i].sy = Projected2dPoint[i][1];
-    //points[i].sz = Projected2dPoint[i][2];
+    //rotated = matMul(rotated, shear)
+    var Projected2dPoint = matMul(projection, rotated)
+    points[i].sx = Projected2dPoint[i][0];
+    points[i].sy = Projected2dPoint[i][1];
+    points[i].sz = Projected2dPoint[i][2];
 }
 }
 function drawPoints(){
