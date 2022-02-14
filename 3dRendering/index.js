@@ -79,14 +79,8 @@ let shear = [
 function projectPoints(){
   for(var i = 0; i < points.length; i++){
     var rotated = matMul(rotationY, pointMatrix)
-    //console.log(rotated)
-    //var rotated = multiplyMatrices(pointMatrix, rotationY)
-    var test
-    var rotated2 = multiplyMatrices(pointMatrix, rotationY)
-    //console.log(rotated2)
     //rotated = matMul(rotationX, rotated)
-    //console.log("rotated: ", rotated)
-    //rotated = matMul(rotated, shear)
+   
     var Projected2dPoint = matMul(projection, rotated)
     points[i].sx = Projected2dPoint[i][0];
     points[i].sy = Projected2dPoint[i][1];
@@ -103,21 +97,32 @@ function drawPoints(){
   }
 }
 function render(){
-  polygons [
-    new polygon(0, 1, 2, 3, 0)
-  ]
-  var square = polygon(0, 1, 2, 3, 0)
+  polygons.push(new polygon(0, 1, 2, 3, 0))
+  polygons.push(new polygon(0, 1, 6, 5, 2))
+
+  
+  
+  for(i = 0; i < polygons.length; i++) {
+    console.log(test)
+    let p = polygons[i]
+    ctx.beginPath()
+    ctx.moveTo(p[0].sx, p[0].sy)
+    for(i = 1; i < p.length; i++) {
+      let x = p[i].sx
+      let y = p[i].sy
+      ctx.lineTo(x,y)  
+    }
+    ctx.stroke();
+  }
   //console.log(square)
 }
 
-render()
 function update(){
     ctx.clearRect(-width / 2, -height / 2, width, height);
     updateAngle()
-    projectPoints()
-   
-   
+    projectPoints()  
     drawPoints()
+    render()
     
     //requestAnimationFrame(update);    
 }
