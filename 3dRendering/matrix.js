@@ -14,14 +14,29 @@ function matMul(a, b)
       for(j = 0; j < a.length; j++)
       {
          let temp01 = [];
+         let total = [];
+         //console.log(temp01)
          for(k = 0; k < a[j].length; k++)
          {
             temp01.push(a[j][k]*b[i][k])        
-         }
-         temp02.push(temp01[j])
+         } 
+         //console.log(temp01)
+         temp02.push(temp01)
       }  
+      //console.log(temp02)
+      for(j = 0; j < temp02[0].length; j++)
+      {
+         let temp03 = 0
+         for(k = 0; k < temp02.length; k++)
+         {
+            temp03 += temp02[k][j]
+         }
+         temp02.push(temp03)
+      }
+      console.log(temp02)
       out.push(temp02)
    } 
+
    //console.log (out)
    return out
 }

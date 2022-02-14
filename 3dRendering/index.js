@@ -79,11 +79,11 @@ let shear = [
 function projectPoints(){
   for(var i = 0; i < points.length; i++){
     var rotated = matMul(rotationY, pointMatrix)
-    console.log(rotated)
+    //console.log(rotated)
     //var rotated = multiplyMatrices(pointMatrix, rotationY)
     var test
     var rotated2 = multiplyMatrices(pointMatrix, rotationY)
-    console.log(rotated2)
+    //console.log(rotated2)
     //rotated = matMul(rotationX, rotated)
     //console.log("rotated: ", rotated)
     //rotated = matMul(rotated, shear)
