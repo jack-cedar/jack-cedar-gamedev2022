@@ -24,3 +24,34 @@ function matMul(a, b) {
    } 
    return out
 }
+// Rotation functions
+function rotateX(pts, angle)
+{
+   rotationX = [
+      [1, 0, 0],
+      [0, Math.cos(angle), -Math.sin(angle)],
+      [0, Math.sin(angle), Math.cos(angle),],
+   ]
+   return matMul(rotationX, pts)
+}
+
+function rotateY(pts, angle)
+{
+   rotationY = [
+      [Math.cos(angle), 0 , -Math.sin(angle)],
+      [0, 1, 0],
+      [Math.sin(angle), 0 , Math.cos(angle)],
+      
+   ]
+   return matMul(rotationY, pts)
+}
+
+function rotateZ(pts, angle)
+{
+   rotationZ = [
+      [Math.cos(angle), -Math.sin(angle), 0],
+      [Math.sin(angle), Math.cos(angle), 0],
+      [0, 0, 1]
+   ]
+   return matMul(rotationZ, pts)
+}
