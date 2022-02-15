@@ -58,21 +58,6 @@ let projection = [
   [0, 1, 0],
   [0, 0, 1]
 ]
-let rotationX = [
-  [1, 0, 0],
-  [0, Math.cos(angle), -Math.sin(angle)],
-  [0, Math.sin(angle), Math.cos(angle),],
-]
-let rotationY = [
-  [Math.cos(angle), 0 , -Math.sin(angle)],
-  [0, 1, 0],
-  [Math.sin(angle), 0 , Math.cos(angle)],
-]
-let rotationZ = [
-  [Math.cos(angle), -Math.sin(angle), 0],
-  [Math.sin(angle), Math.cos(angle), 0],
-  [0, 0, 1]
-]
 let shear = [
   [1, 0, 0],
   [1, 1, 0],
@@ -80,24 +65,21 @@ let shear = [
 ]
 var xAngle = 0
 var yAngle = 0
-
 window.addEventListener("keydown", keyPressed);
-            function keyPressed(event){
-              console.log(event.keyCode)
-              console.log(xAngle, yAngle)
-                //could have used a switch statement and make it smaller
-                switch(event.keyCode){
+            function keyPressed(event)
+            {
+                switch(event.keyCode)
+                {
                   case 37: yAngle += 0.1;break;
                   case 38: xAngle -= 0.1;break;
                   case 39: yAngle -= 0.1;break;
                   case 40: xAngle += 0.1;break;
                 }
-                
-              
             }
-
-function projectPoints(){
-  for(var i = 0; i < points.length; i++){
+function projectPoints()
+{
+  for(var i = 0; i < points.length; i++)
+  {
     var rotated = rotateX(pointMatrix, xAngle)
     rotated = rotateY(rotated, yAngle)
    
@@ -106,11 +88,13 @@ function projectPoints(){
     points[i].sx = Projected2dPoint[i][0];
     points[i].sy = Projected2dPoint[i][1];
     points[i].sz = Projected2dPoint[i][2];
+  }
 }
-}
-function drawPoints(){
+function drawPoints()
+{
   ctx.fillStyle = "white";
-  for(var i = 0; i < points.length; i++){
+  for(var i = 0; i < points.length; i++)
+  {
     ctx.beginPath();
     ctx.arc(points[i].sx, points[i].sy, 5, 0, 2 * Math.PI);
     ctx.fill();
@@ -124,7 +108,8 @@ polygons.push([new polygon(5, 6, 2, 1, 5), "blue"])
 polygons.push([new polygon(2, 6, 7, 3, 2), "purple"])
 polygons.push([new polygon(4, 5, 1, 0, 4), "pink"])
 
-function sumz(polygons){
+function sumz(polygons)
+{
   let p = polygons
   //console.log(p.length)
   for(i = 0; i < p.length; i++)
@@ -142,38 +127,39 @@ function sumz(polygons){
     p[i].zsum = sum
   }
 }
-function render(){
+function render()
+{
   sumz(polygons)
-  polygons.sort((a, b) =>{
+  polygons.sort((a, b) => 
+  {
     if(a.zsum > b.zsum) return -1;
     if(a.zsum < b.zsum) return 1;
   })
-  for(i = 0; i < polygons.length; i++) {
+  for(i = 0; i < polygons.length; i++) 
+  {
    
     let p = polygons[i][0]
     ctx.beginPath()
     ctx.moveTo(p[0].sx, p[0].sy)
-    for(j = 1; j < p.length; j++) {
+    for(j = 1; j < p.length; j++) 
+    {
       ctx.fillStyle = polygons[i][1]
       let x = p[j].sx
       let y = p[j].sy
       ctx.lineTo(x,y) 
       ctx.stroke();
-      //console.log(polygons[i].thisColour)
-      
       ctx.fill() 
-     
     } 
   }
-  //console.log(square)
 }
-
-function update(){
+function update()
+{
     ctx.clearRect(-width / 2, -height / 2, width, height);
     projectPoints()  
     //drawPoints()
     render()
-    
+    xAngle += 0.01
+    yAngle += 0.01
     requestAnimationFrame(update);    
 }
 update();
