@@ -3,137 +3,94 @@ let ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
 ctx.strokeStyle = "white";
-
-var grd = ctx.createLinearGradient(0, 200, 200, 0);
-grd.addColorStop(0, "red");
-grd.addColorStop(1, "blue");
-
-let angle = 0;
-var points = []
-var polygons = []
-var size = 100;
 ctx.translate(width/2, height/2);
 
-const point = function(x, y, z){
-  newPoint = {
-    x: x,
-    y: y,
-    z: z,
+console.log()
+class camera{
+  constructor()
+  {
+    // Position of the camera
+  this.posX= 0
+  this.posY= 0
+  this.posZ= 0
+  // Direction the camera is facing
+  this.dirX= 0
+  this.dirY= 0
+  this.dirZ= 0
+  // What way is up?
+  this.upX= 0
+  this.upY= this.posY + 1
+  this.upZ= 0
+
+  this.fov = 90
+
+  this.aspectRatio = (height / width)
+
+  this.near= 0.1
+  this.far= 10000
+
+  
+  this.view =
+  [
+    [this.fov*this.aspectRatio, 0, 0, 0],
+    [0, this.fov*this.aspectRatio, 0, 0],
+    [0, 0, this.far/(this.far-this.near),-1],
+    [0, 0, (-this.far*this.near)/(this.far - this.near), 0]
+  ]
+  
+
+
   }
-  return(newPoint) 
-};
-var polygon = function(){
-  var pts = [];
-  for(var i = 0; i < arguments.length; i++){
-    pts.push(points[arguments[i]])
-  }
-  return(pts)
 }
-const matrix = function(){
-}
-points = [
-  new point( -size, -size, -size),
-  new point(  size, -size, -size),
-  new point(  size,  size, -size),
-  new point( -size,  size, -size),
-  new point( -size, -size, size),
-  new point(  size, -size, size),
-  new point(  size,  size, size),
-  new point( -size,  size, size),
-]
-function matrixifyPoints(points){
+let c1 = new camera
+
+
+function getMatrix(points){
   var pointMatrix = [];
   for (i = 0; i < points.length; i++){
     p = points[i]
-    pointMatrix[i] = [p.x, p.y, p.z];
+    pointMatrix[i] = [p.x, p.y, p.z, p.w];
   }
   return(pointMatrix);
 }
-var pointMatrix = matrixifyPoints(points);
-let projection = [
-  [1, 0, 0],
-  [0, 1, 0],
-  [0, 0, 1]
-]
-let rotationX = [
-  [1, 0, 0],
-  [0, Math.cos(angle), -Math.sin(angle)],
-  [0, Math.sin(angle), Math.cos(angle),],
-]
-let rotationY = [
-  [Math.cos(angle), 0 , -Math.sin(angle)],
-  [0, 1, 0],
-  [Math.sin(angle), 0 , Math.cos(angle)],
-]
-let rotationZ = [
-  [Math.cos(angle), -Math.sin(angle), 0],
-  [Math.sin(angle), Math.cos(angle), 0],
-  [0, 0, 1]
-]
-let shear = [
-  [1, 0, 0],
-  [1, 1, 0],
-  [1, 1, 0]
-]
 
-function projectPoints(){
-  for(var i = 0; i < points.length; i++){
-    //var rotated = multiplyMatrices(pointMatrix, rotationX)
-    //var rotated = multiplyMatrices(pointMatrix, rotationY)
-    mulMat(rotationY, pointMatrix)
-    //console.log("rotated: ", rotated)
-    //rotated = multiplyMatrices(rotated, shear)
-    //var Projected2dPoint = multiplyMatrices(rotated, projection)
-    //points[i].sx = Projected2dPoint[i][0];
-    //points[i].sy = Projected2dPoint[i][1];
-    //points[i].sz = Projected2dPoint[i][2];
-}
-}
-function drawPoints(){
-  ctx.fillStyle = "white";
-  for(var i = 0; i < points.length; i++){
-    ctx.beginPath();
-    ctx.arc(points[i].sx, points[i].sy, 5, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.stroke();
-  }
-}
-function render(){
-  polygons [
-    new polygon(0, 1, 2, 3, 0)
-  ]
-  var square = polygon(0, 1, 2, 3, 0)
-  //console.log(square)
-}
+let cube01 = new box(0, 0, 500, 100, 100, 100)
+//let cube02 = new box(0, 0,500, 100, 50, 200)
+document,addEventListener("mouseup", up =>{
+  document.getElementById("xRotate").value = 0
+  document.getElementById("yRotate").value = 0
+  document.getElementById("zRotate").value = 0
+  document.getElementById("xPos").value = 0
+  document.getElementById("yPos").value = 0
+  document.getElementById("zPos").value = 0
+})
 
-render()
-function update(){
+function render()
+{
+  cube01.project()
+  cube01.rx += parseFloat(document.getElementById("xRotate").value)
+  cube01.ry += parseFloat(document.getElementById("yRotate").value)
+  cube01.rz += parseFloat(document.getElementById("zRotate").value)
+  cube01.x += parseFloat(document.getElementById("xPos").value)
+  cube01.y += parseFloat(document.getElementById("yPos").value)
+  cube01.z += parseFloat(document.getElementById("zPos").value)
+  cube01.l += 1
+  //cube01.scale[0] += 0.01
+  draw(cube01)
+
+
+  
+}
+function update()
+{
     ctx.clearRect(-width / 2, -height / 2, width, height);
-    updateAngle()
-    projectPoints()
-   
-   
-    drawPoints()
     
-    //requestAnimationFrame(update);    
+    render()
+    //testb.angleX += 0.01
+    requestAnimationFrame(update);    
 }
 update();
-function updateAngle(){
-  rotationX = [
-    [1, 0, 0],
-    [0, Math.cos(angle), -Math.sin(angle)],
-    [0, Math.sin(angle), Math.cos(angle),],
-  ]
-  rotationY = [
-    [Math.cos(angle), 0 , -Math.sin(angle)],
-    [0, 1, 0],
-    [Math.sin(angle), 0 , Math.cos(angle)],
-    
-  ]
-  rotationZ = [
-    [Math.cos(angle), -Math.sin(angle), 0],
-    [Math.sin(angle), Math.cos(angle), 0],
-    [0, 0, 1]
-  ]
-  angle += 0.01;
-}
+
+
+
+

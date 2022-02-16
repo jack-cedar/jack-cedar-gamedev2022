@@ -1,13 +1,35 @@
+<!DOCTYPE html>
 <html>
     <header>
         
         <style>
-                canvas{
-                background-color: black;
-                display: block;
+                canvas
+                {
+                    z-index: 0;
+                    position: absolute;
+                    background-color: black;
+                    display: block;
                 }
-                body{
+                body
+                {
                     margin: 0px;
+                }
+                .sliders
+                {
+                    z-index: 1;
+                    position: absolute;
+                    
+                }
+                .slider
+                {
+                    -webkit-appearance: none;
+                    background: darkgrey;
+                    border-radius: 10px;
+                    height: 10px;
+                    opacity: 1;
+                   
+
+                    
                 }
             
             </style>
@@ -17,12 +39,20 @@
     </header>
     <body>
        
-       
+       <div class="sliders">
+        <input class = "slider" type="range" id="xRotate" min="-1" max="1" step="0.01">
+        <input class = "slider" type="range" id="yRotate" min="-1" max="1" step="0.01">
+        <input class = "slider" type="range" id="zRotate" min="-1" max="1" step="0.01"> <br>
+        <input class = "slider" type="range" id="xPos" min="-1" max="1" step="0.01">
+        <input class = "slider" type="range" id="yPos" min="-1" max="1" step="0.01">
+        <input class = "slider" type="range" id="zPos" min="-1" max="1" step="0.01"> <br>
+       </div>
        <div id="container"style="text-align: center;">
         <canvas id="myCanvas"></canvas>
         </div>
 
-        <script src="./matrix.js"></script>
+        <script src="./matrixMath.js"></script>
+        <script src="./geometry.js"></script>
         <script src="./index.js"></script>
         
     </body>
