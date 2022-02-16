@@ -3,125 +3,93 @@ let ctx = canvas.getContext('2d');
 let width = canvas.width = window.innerWidth;
 let height = canvas.height = window.innerHeight;
 ctx.strokeStyle = "white";
-
-var grd = ctx.createLinearGradient(0, 200, 200, 0);
-grd.addColorStop(0, "red");
-grd.addColorStop(1, "blue");
-
-let angle = 0;
-var points = []
-var polygons = []
-var size = 100;
 ctx.translate(width/2, height/2);
 
-const point = function(x, y, z){
-  newPoint = {
-    x: x,
-    y: y,
-    z: z,
-  }
-  return(newPoint) 
-};
-var polygon = function(){
-  var pts = [];
-  let thisColour = arguments[0]
-  for(var i = 1; i < arguments.length; i++){
-    pts.push(points[arguments[i]])
-  }
-  
-  return(pts)
+class camera{
+  constructor()
+  {
+    // Position of the camera
+  this.posX= 0
+  this.posY= 0
+  this.posZ= 0
+  // Direction the camera is facing
+  this.dirX= 0
+  this.dirY= 0
+  this.dirZ= 0
+  // What way is up?
+  this.upX= 0
+  this.upY= this.posY + 1
+  this.upZ= 0
 
+  this.fov= 90
+
+  this.near= 10
+  this.far= 1000
+  
+  this.view =
+  [
+    [Math.atan(this.fov/2), 0, 0, 0],
+    [0, Math.atan(this.fov/2), 0, 0],
+    [0, 0, -(this.far+this.near)/(this.far-this.near), -2*(this.near*this.far)/this.far - this.near],
+    [0, 0, -1, 0]
+  ]
+  
+
+
+  }
 }
-const matrix = function(){
-}
-points = [
-  new point( -size, -size, -size),
-  new point(  size, -size, -size),
-  new point(  size,  size, -size),
-  new point( -size,  size, -size),
-  new point( -size, -size, size),
-  new point(  size, -size, size),
-  new point(  size,  size, size),
-  new point( -size,  size, size),
-]
+let c1 = new camera
+
+
 function matrixifyPoints(points){
   var pointMatrix = [];
   for (i = 0; i < points.length; i++){
     p = points[i]
-    pointMatrix[i] = [p.x, p.y, p.z];
+    pointMatrix[i] = [p.x, p.y, p.z, p.w];
   }
   return(pointMatrix);
 }
-var pointMatrix = matrixifyPoints(points);
+let testb = new box(0, 0, 0, 100, 50, 200)
+let fov = 90 * Math.PI/180
+var pointMatrix = matrixifyPoints(testb.points);
 let projection = [
-  [1, 0, 0],
-  [0, 1, 0],
-  [0, 0, 1]
+  [1, 0, 0, 0],
+  [0, 1, 0, 0],
+  [0, 0, 1, 0],
+  [0, 0, 0, 1]
 ]
-let shear = [
-  [1, 0, 0],
-  [1, 1, 0],
-  [1, 1, 0]
-]
-var xAngle = 0
+
+
+var xAngle = 45
 var yAngle = 0
-window.addEventListener("keydown", keyPressed);
-            function keyPressed(event)
-            {
-                switch(event.keyCode)
-                {
-                  case 37: yAngle += 0.1;break;
-                  case 38: xAngle -= 0.1;break;
-                  case 39: yAngle -= 0.1;break;
-                  case 40: xAngle += 0.1;break;
-                }
-            }
+var size = 1
 function projectPoints()
 {
-  for(var i = 0; i < points.length; i++)
+  for(var i = 0; i < testb.points.length; i++)
   {
-    var rotated = rotateX(pointMatrix, xAngle)
-    rotated = rotateY(rotated, yAngle)
-   
-   
-    var Projected2dPoint = matMul(projection, rotated)
-    points[i].sx = Projected2dPoint[i][0];
-    points[i].sy = Projected2dPoint[i][1];
-    points[i].sz = Projected2dPoint[i][2];
+    
+    var rotated = rotateY(pointMatrix, yAngle)
+    rotated = rotateX(rotated, xAngle)
+    //rotated = matMul(projection, rotated)
+    //rotated = (c1.view, rotated)
+    var Projected2dPoint = matMul(c1.view, rotated)
+    testb.points[i].sx = Projected2dPoint[i][0];
+    testb.points[i].sy = Projected2dPoint[i][1];
+    testb.points[i].sz = Projected2dPoint[i][2];
   }
 }
-function drawPoints()
-{
-  ctx.fillStyle = "white";
-  for(var i = 0; i < points.length; i++)
-  {
-    ctx.beginPath();
-    ctx.arc(points[i].sx, points[i].sy, 5, 0, 2 * Math.PI);
-    ctx.fill();
-    ctx.stroke();
-  }
-}
-polygons.push([new polygon( 0, 1, 2, 3, 0), "red"])
-polygons.push([new polygon(4, 5, 6, 7, 4), "yellow"])
-polygons.push([new polygon(0, 3, 7, 4, 0), "green"])
-polygons.push([new polygon(5, 6, 2, 1, 5), "blue"])
-polygons.push([new polygon(2, 6, 7, 3, 2), "purple"])
-polygons.push([new polygon(4, 5, 1, 0, 4), "pink"])
 
 function sumz(polygons)
 {
   let p = polygons
-  //console.log(p.length)
   for(i = 0; i < p.length; i++)
   {
     let sum = 0;
-    let l = p[i][0].length
+    let l = p[i].points.length
     let j = 0
     while(j < l)
     {
-      
-      sum += p[i][0][j].sz
-      
+      sum += p[i].points[j].sz 
       j++
     }
     p[i].zsum = sum
@@ -129,37 +97,44 @@ function sumz(polygons)
 }
 function render()
 {
-  sumz(polygons)
-  polygons.sort((a, b) => 
+  sumz(testb.polygons)
+  testb.polygons.sort((a, b) => 
   {
     if(a.zsum > b.zsum) return -1;
     if(a.zsum < b.zsum) return 1;
   })
-  for(i = 0; i < polygons.length; i++) 
+
+  for(i = 0; i < testb.polygons.length; i++) 
   {
-   
-    let p = polygons[i][0]
+    let p = testb.polygons[i].points
     ctx.beginPath()
     ctx.moveTo(p[0].sx, p[0].sy)
     for(j = 1; j < p.length; j++) 
     {
-      ctx.fillStyle = polygons[i][1]
+      
+      ctx.fillStyle = "blue"
       let x = p[j].sx
       let y = p[j].sy
       ctx.lineTo(x,y) 
-      ctx.stroke();
-      ctx.fill() 
     } 
+    ctx.lineTo(p[0].sx,p[0].sy)
+    ctx.fill() 
+    ctx.stroke();
+   
   }
 }
 function update()
 {
     ctx.clearRect(-width / 2, -height / 2, width, height);
     projectPoints()  
-    //drawPoints()
     render()
-    xAngle += 0.01
-    yAngle += 0.01
+    //xAngle += 0.01
+    //yAngle += 0.01
     requestAnimationFrame(update);    
 }
 update();
+console.log(height, width)
+
+
+
+

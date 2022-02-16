@@ -2,6 +2,7 @@ function matMul(a, b) {
    let out = [];
    if(a.length != b[0].length) {
       console.error("width of b does not match length of a")
+      console.log(a, b)
    }
    for(i = 0; i < b.length; i++) {
       let temp02 = []
@@ -27,20 +28,22 @@ function matMul(a, b) {
 // Rotation functions
 function rotateX(pts, angle)
 {
-   rotationX = [
-      [1, 0, 0],
-      [0, Math.cos(angle), -Math.sin(angle)],
-      [0, Math.sin(angle), Math.cos(angle),],
+   let rotationX = [
+      [1, 0, 0, 0],
+      [0, Math.cos(angle), -Math.sin(angle), 0],
+      [0, Math.sin(angle), Math.cos(angle), 0],
+      [0, 0, 0, 1],
    ]
    return matMul(rotationX, pts)
 }
 
 function rotateY(pts, angle)
 {
-   rotationY = [
-      [Math.cos(angle), 0 , -Math.sin(angle)],
-      [0, 1, 0],
-      [Math.sin(angle), 0 , Math.cos(angle)],
+   let rotationY = [
+      [Math.cos(angle), 0 , -Math.sin(angle), 0],
+      [0, 1, 0, 0],
+      [Math.sin(angle), 0 , Math.cos(angle), 0],
+      [0, 0, 0, 1],
       
    ]
    return matMul(rotationY, pts)
@@ -49,9 +52,20 @@ function rotateY(pts, angle)
 function rotateZ(pts, angle)
 {
    rotationZ = [
-      [Math.cos(angle), -Math.sin(angle), 0],
-      [Math.sin(angle), Math.cos(angle), 0],
-      [0, 0, 1]
+      [Math.cos(angle), -Math.sin(angle), 0, 0],
+      [Math.sin(angle), Math.cos(angle), 0, 0],
+      [0, 0, 1, 0]
+      [0, 0, 0, 1],
    ]
    return matMul(rotationZ, pts)
+}
+function scale(pts, x, y, z)
+{
+   let scale = [
+      [x, 0, 0, 0],
+      [0, y, 0, 0],
+      [0, 0, z, 0],
+      [0, 0, 0, 1],
+   ]
+   return matMul(scale, pts)
 }
