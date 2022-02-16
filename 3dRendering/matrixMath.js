@@ -26,14 +26,26 @@ function matMul(a, b) {
    return out
 }
 // Rotation functions
-function rotateX(pts, angle)
+function rotateX(pts, angle, point)
 {
+   let out = pts
+   let pt = point
    let rotationX = [
       [1, 0, 0, 0],
       [0, Math.cos(angle), -Math.sin(angle), 0],
       [0, Math.sin(angle), Math.cos(angle), 0],
       [0, 0, 0, 1],
    ]
+   //onsole.log(pts)
+   let pmat =
+   [
+      [1, 0, pt.x, 0],
+      [0, 1, pt.y, 0],
+      [0, 0, pt.z, 0],
+      [0, 0, 0, 0, 1]
+   ]
+   out = matMul(rotationX, pts)
+   out = (pmat, out)
    return matMul(rotationX, pts)
 }
 
@@ -51,12 +63,17 @@ function rotateY(pts, angle)
 
 function rotateZ(pts, angle)
 {
+   let out = pts
    rotationZ = [
       [Math.cos(angle), -Math.sin(angle), 0, 0],
       [Math.sin(angle), Math.cos(angle), 0, 0],
       [0, 0, 1, 0]
       [0, 0, 0, 1],
    ]
+   console.log(pts)
+   let point = []
+   out = matMul(rotationZ, pts)
+   out = (rotationZ, out)
    return matMul(rotationZ, pts)
 }
 function scale(pts, x, y, z)

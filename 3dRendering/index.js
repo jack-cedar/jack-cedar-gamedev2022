@@ -21,17 +21,20 @@ class camera{
   this.upY= this.posY + 1
   this.upZ= 0
 
-  this.fov= 90
+  this.fov = 90
 
-  this.near= 10
-  this.far= 1000
+  this.aspectRatio = (height / width)
+
+  this.near= 0.1
+  this.far= 10000
+
   
   this.view =
   [
-    [Math.atan(this.fov/2), 0, 0, 0],
-    [0, Math.atan(this.fov/2), 0, 0],
-    [0, 0, -(this.far+this.near)/(this.far-this.near), -2*(this.near*this.far)/this.far - this.near],
-    [0, 0, -1, 0]
+    [this.fov*this.aspectRatio, 0, 0, 0],
+    [0, this.fov*this.aspectRatio, 0, 0],
+    [0, 0, this.far/(this.far-this.near),-1],
+    [0, 0, (-this.far*this.near)/(this.far - this.near), 0]
   ]
   
 
@@ -49,7 +52,7 @@ function matrixifyPoints(points){
   }
   return(pointMatrix);
 }
-let testb = new box(0, 0, 0, 100, 50, 200)
+let testb = new box(0, 0,500, 100, 50, 200)
 let fov = 90 * Math.PI/180
 var pointMatrix = matrixifyPoints(testb.points);
 let projection = [
@@ -60,22 +63,34 @@ let projection = [
 ]
 
 
-var xAngle = 45
+var xAngle = 0
 var yAngle = 0
 var size = 1
 function projectPoints()
 {
   for(var i = 0; i < testb.points.length; i++)
   {
-    
-    var rotated = rotateY(pointMatrix, yAngle)
-    rotated = rotateX(rotated, xAngle)
-    //rotated = matMul(projection, rotated)
+
+    //var  matrix = matMul( c1.view, pointMatrix)
+    var matrix = pointMatrix
+    matrix = rotateX(pointMatrix, xAngle, testb)
+    //matrix = scale(matrix, 2, 2, 2)
+    //matrix = matMul(project, rotated)
     //rotated = (c1.view, rotated)
-    var Projected2dPoint = matMul(c1.view, rotated)
-    testb.points[i].sx = Projected2dPoint[i][0];
-    testb.points[i].sy = Projected2dPoint[i][1];
-    testb.points[i].sz = Projected2dPoint[i][2];
+    //rojected2dPoint = scale(matrix, 2, 2, 2)
+    //var Projected2dPoint = matMul(projection, matrix)
+    //console.log("before: ",Projected2dPoint)
+   
+    var Projected2dPoint = matMul(c1.view, matrix)
+    if(Projected2dPoint[i][3] != 1)
+    {
+      testb.points[i].sx = Projected2dPoint[i][0]/=Projected2dPoint[i][3]
+      testb.points[i].sy = Projected2dPoint[i][1]/=Projected2dPoint[i][3]
+      testb.points[i].sz = Projected2dPoint[i][2]/=Projected2dPoint[i][3]
+    }
+   
+    
+    //console.log(Projected2dPoint)
   }
 }
 
@@ -118,7 +133,7 @@ function render()
       ctx.lineTo(x,y) 
     } 
     ctx.lineTo(p[0].sx,p[0].sy)
-    ctx.fill() 
+    //ctx.fill() 
     ctx.stroke();
    
   }
@@ -128,7 +143,7 @@ function update()
     ctx.clearRect(-width / 2, -height / 2, width, height);
     projectPoints()  
     render()
-    //xAngle += 0.01
+    xAngle += 0.01
     //yAngle += 0.01
     requestAnimationFrame(update);    
 }
