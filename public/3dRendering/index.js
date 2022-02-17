@@ -29,7 +29,6 @@ class camera{
   this.near= 0.1
   this.far= 10000
 
-  
   this.view =
   [
     [this.fov*this.aspectRatio, 0, 0, 0],
@@ -54,7 +53,17 @@ function getMatrix(points){
   return(pointMatrix);
 }
 
-let cube01 = new box(0, 0, 500, 100, 100, 100)
+let things = 
+[
+  new box(75, 0, 500, 50, 50, 50),
+  new box(-75, 0, 500, 50, 50, 50),
+  new box(0, 75, 500, 50, 50, 50),
+  new box(0, -75, 500, 50, 50, 50)
+] 
+
+
+
+let cube01 = new box(0, 0, 500, 100, 50, 200)
 //let cube02 = new box(0, 0,500, 100, 50, 200)
 document,addEventListener("mouseup", up =>{
   document.getElementById("xRotate").value = 0
@@ -67,16 +76,23 @@ document,addEventListener("mouseup", up =>{
 
 function render()
 {
-  cube01.project()
-  cube01.rx += parseFloat(document.getElementById("xRotate").value)
+  let i = 0
+  while(i < things.length)
+  {
+    things[i].update()
+    draw(things[i])
+    i++
+  }
+  
+  /*cube01.rx += parseFloat(document.getElementById("xRotate").value)
   cube01.ry += parseFloat(document.getElementById("yRotate").value)
   cube01.rz += parseFloat(document.getElementById("zRotate").value)
   cube01.x += parseFloat(document.getElementById("xPos").value)
   cube01.y += parseFloat(document.getElementById("yPos").value)
-  cube01.z += parseFloat(document.getElementById("zPos").value)
-  cube01.l += 1
+  cube01.z += parseFloat(document.getElementById("zPos").value)*/
+
   //cube01.scale[0] += 0.01
-  draw(cube01)
+  
 
 
   

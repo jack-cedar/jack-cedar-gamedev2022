@@ -83,12 +83,13 @@ class box
     }
     update()
     {      
-        sumz(testb.polygons)
+        this.project()
+        /*sumz(testb.polygons)
         testb.polygons.sort((a, b) => 
         {
             if(a.zsum > b.zsum) return -1;
             if(a.zsum < b.zsum) return 1;
-        })
+        })*/
     }
 }
 
