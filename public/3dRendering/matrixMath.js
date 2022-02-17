@@ -82,3 +82,9 @@ function translate(pts, x, y, z)
    ]
    return matMul(translation, pts)
 }
+
+function normalize(input)
+{
+   let out = []
+   return out
+}

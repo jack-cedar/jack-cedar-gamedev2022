@@ -66,18 +66,20 @@ class box
         for(let i = 0; i < this.points.length; i++)
         {
             let mx = this.matrix 
+            mx = translate(mx, this.x, this.y, this.z)
             mx = rotateX(mx, this.rx)
             mx = rotateY(mx, this.ry)
             mx = rotateZ(mx, this.rz)
-            mx = translate(mx, this.x, this.y, this.z)
-            mx = scale(mx, this.scale[0],this.scale[1], this.scale[2])
-            var Projected2dPoint = matMul(c1.view, mx)
             
-            if(Projected2dPoint[i][3] != 1)
+            
+            mx = scale(mx, this.scale[0],this.scale[1], this.scale[2])
+            var ProjectedPoint = matMul(c1.view, mx)
+            
+            if(ProjectedPoint[i][3] != 1)
             {
-                this.points[i].sx = Projected2dPoint[i][0]/=Projected2dPoint[i][3]
-                this.points[i].sy = Projected2dPoint[i][1]/=Projected2dPoint[i][3]
-                this.points[i].sz = Projected2dPoint[i][2]/=Projected2dPoint[i][3]   
+                this.points[i].sx = ProjectedPoint[i][0]/=ProjectedPoint[i][3]
+                this.points[i].sy = ProjectedPoint[i][1]/=ProjectedPoint[i][3]
+                this.points[i].sz = ProjectedPoint[i][2]/=ProjectedPoint[i][3]   
             }
         }
     }
@@ -103,7 +105,6 @@ function draw(object)
     ctx.moveTo(p[0].sx, p[0].sy)
     for(j = 1; j < p.length; j++) 
     {
-      
       ctx.fillStyle = "blue"
       let x = p[j].sx
       let y = p[j].sy
