@@ -14,7 +14,7 @@ class camera{
             [this.cameraPos[1]-this.cameraTarget[1]],
             [this.cameraPos[2]-this.cameraTarget[2]]
         ]
-        this.fov = 90
+        this.fov = 120
   
         this.aspectRatio = (height / width)
   

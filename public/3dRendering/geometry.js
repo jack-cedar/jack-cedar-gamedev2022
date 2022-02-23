@@ -37,7 +37,10 @@ class box
         this.rx = 0
         this.ry = 0
         this.rz = 0
-        this.scale = [1, 1, 1]
+        this.sx = 1
+        this.sy = 1
+        this.sz = 1
+        this.scale = [this.sx, this.sy, this.sz]
         
         this.points =
         [
@@ -49,6 +52,7 @@ class box
             new point(-this.w/2,  this.h/2 , -this.l/2),
             new point( this.w/2, -this.h/2 , -this.l/2),
             new point(-this.w/2, -this.h/2 , -this.l/2),
+            new point(this.x, this.y, -this.l/2)
         ]
         this.matrix = getMatrix(this.points)
         this.polygons = 
@@ -66,10 +70,11 @@ class box
         for(let i = 0; i < this.points.length; i++)
         {
             let mx = this.matrix 
-            mx = translate(mx, this.x, this.y, this.z)
+            
             mx = rotateX(mx, this.rx)
             mx = rotateY(mx, this.ry)
             mx = rotateZ(mx, this.rz)
+            mx = translate(mx, this.x, this.y, this.z)
             
             
             mx = scale(mx, this.scale[0],this.scale[1], this.scale[2])
@@ -85,7 +90,19 @@ class box
     }
     update()
     {      
+        this.ry= 0
+        if(this.x >= width/11)
+        {
+            this.x = -this.x
+        }
+        this.x ++
+           console.log(this.x)
+           console.log(width)
+        
+        
+        //this.scale = [this.sx, this.sy, this.sz]
         this.project()
+        
         /*sumz(testb.polygons)
         testb.polygons.sort((a, b) => 
         {

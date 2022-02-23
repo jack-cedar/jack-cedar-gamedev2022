@@ -17,15 +17,21 @@ function getMatrix(points){
     pointMatrix[i] = [p.x, p.y, p.z, p.w];
   }
   return(pointMatrix);
+}let world = []
+let numCube = 100
+for(let x = -1; x < 2; x++)
+{
+  for(let y = -1; y < 2; y++)
+  {
+    for(let z = -1; z < 2; z++)
+    {
+      
+      world.push(new box(x*10, y*10, 100+z*10, 5, 5, 5 ))
+      
+    }
+  }
 }
 
-let world = 
-[
-  new box(75, 0, 500, 50, 50, 50),
-  new box(-75, 0, 500, 50, 50, 50),
-  new box(0, 75, 500, 50, 50, 50),
-  new box(0, -75, 500, 50, 50, 50)
-] 
 
 document,addEventListener("mouseup", up =>{
   document.getElementById("xRotate").value = 0
