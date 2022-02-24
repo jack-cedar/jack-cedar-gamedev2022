@@ -19,7 +19,7 @@ function getMatrix(points){
   return(pointMatrix);
 }
 let world = []
-for(let x = -2; x < 3; x++)
+for(let x = -5; x < 6; x++)
 {
   for(let y = -2; y < 3; y++)
   {
