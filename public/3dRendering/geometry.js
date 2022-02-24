@@ -100,8 +100,7 @@ class box
             this.x = -this.x
         }
         this.x += 0.5
-           console.log(this.x)
-           console.log(width)
+        
         
         
         //this.scale = [this.sx, this.sy, this.sz]
@@ -112,7 +111,7 @@ class box
         {
             if(a.zsum > b.zsum) return 1;
             if(a.zsum < b.zsum) return -1;
-            if(a.zsum == b.zsum) return -1;
+            if(a.zsum == b.zsum) return 1;
         })
     }
 }

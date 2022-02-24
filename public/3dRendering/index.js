@@ -19,11 +19,12 @@ function getMatrix(points){
   return(pointMatrix);
 }
 let world = []
-for(let x = -5; x < 6; x++)
+document.getElementById("numBoxes").value = 0
+for(let x = 0; x < 1; x++)
 {
-  for(let y = -2; y < 3; y++)
+  for(let y = 0; y < 1; y++)
   {
-    for(let z = -2; z < 3; z++)
+    for(let z = 0; z < 1; z++)
     {
       world.push(new box(x*10, y*10, 100+z*10, 5, 5, 5 ))
     }
@@ -34,12 +35,20 @@ for(let x = -5; x < 6; x++)
 
 
 document,addEventListener("mouseup", up =>{
-  document.getElementById("xRotate").value = 0
-  document.getElementById("yRotate").value = 0
-  document.getElementById("zRotate").value = 0
-  document.getElementById("xPos").value = 0
-  document.getElementById("yPos").value = 0
-  document.getElementById("zPos").value = 0
+  world = null
+  world = []
+  let boxes = document.getElementById("numBoxes").value
+  let val = boxes / 2
+  for(let x = -val; x < val+1; x++)
+  {
+    for(let y = -val; y < val+1; y++)
+    {
+      for(let z = -val; z < val+1; z++)
+      {
+        world.push(new box(x*10, y*10, 100+z*10, 5, 5, 5 ))
+      }
+    } 
+  }
 })
 
 function render()
