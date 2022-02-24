@@ -92,9 +92,9 @@ class box
     }
     update()
     {      
-        this.rx += 0.05
-        this.ry += 0.1
-        this.rz += 0.01
+        //this.rx += 0.05
+        //this.ry += 0.1
+        //this.rz += 0.01
         if(this.x >= width/11)
         {
             this.x = -this.x
@@ -106,13 +106,13 @@ class box
         //this.scale = [this.sx, this.sy, this.sz]
         this.project()
         
-        sumz(this.polygons)
+        /*sumz(this.polygons)
         this.polygons.sort((a, b) => 
         {
             if(a.zsum > b.zsum) return 1;
             if(a.zsum < b.zsum) return -1;
             if(a.zsum == b.zsum) return 1;
-        })
+        })*/
     }
 }
 
@@ -126,13 +126,13 @@ function draw(object)
     ctx.moveTo(p[0].sx, p[0].sy)
     for(j = 1; j < p.length; j++) 
     {
-      ctx.fillStyle = object.polygons[i].c
+     // ctx.fillStyle = object.polygons[i].c
       let x = p[j].sx
       let y = p[j].sy
       ctx.lineTo(x,y) 
     } 
     ctx.lineTo(p[0].sx,p[0].sy)
-    ctx.fill() 
+    //ctx.fill() 
     ctx.stroke();
    
   }

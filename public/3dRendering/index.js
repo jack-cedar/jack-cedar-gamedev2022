@@ -18,49 +18,35 @@ function getMatrix(points){
   }
   return(pointMatrix);
 }
-let world = []
-document.getElementById("numBoxes").value = 0
-for(let x = 0; x < 1; x++)
-{
-  for(let y = 0; y < 1; y++)
-  {
-    for(let z = 0; z < 1; z++)
-    {
-      world.push(new box(x*10, y*10, 100+z*10, 5, 5, 5 ))
-    }
-  }
-}
 
 
 
 
-document,addEventListener("mouseup", up =>{
-  world = null
+
   world = []
-  let boxes = document.getElementById("numBoxes").value
-  let val = boxes / 2
-  for(let x = -val; x < val+1; x++)
+
+  for(let x = -10; x < 11; x++)
   {
-    for(let y = -val; y < val+1; y++)
+    for(let y = -10; y < 12; y++)
     {
-      for(let z = -val; z < val+1; z++)
+      for(let z = 0; z < 100; z++)
       {
-        world.push(new box(x*10, y*10, 100+z*10, 5, 5, 5 ))
+        world.push(new box(x*25, y*25, 50+z*25, 2, 2, 2 ))
       }
     } 
   }
-})
+
 
 function render()
 {
-  world.sort(
+  /*world.sort(
     (a, b) => 
           {
               if(a.z > b.z) return -1;
               if(a.z < b.z) return 1;
               if(a.zsum == b.zsum) return -1;
           }
-  )
+  )*/
   
   //console.log(makeWorld(things))
   let i = 0
