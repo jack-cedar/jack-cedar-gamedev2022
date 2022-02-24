@@ -13,13 +13,15 @@ class point
 }
 class polygon
 {
-    constructor(points)
+    constructor(points, color)
     {
-        this.points = []   
-        for(var i = 1; i < arguments.length; i++){
+        this.points = []
+        this.c = arguments[1]   
+        for(var i = 2; i < arguments.length; i++){
             this.points.push(points[arguments[i]])
         }
         this.sum = 0;
+        
     }
 }
 
@@ -57,12 +59,12 @@ class box
         this.matrix = getMatrix(this.points)
         this.polygons = 
         [
-            new polygon(this.points, 0, 1, 3, 2),
-            new polygon(this.points, 0, 1, 5, 4),
-            new polygon(this.points, 2, 3, 7, 6),
-            new polygon(this.points, 1, 5, 7, 3),
-            new polygon(this.points, 2, 6, 4, 0),
-            new polygon(this.points, 5, 4, 6, 7),
+            new polygon(this.points,'red', 0, 1, 3, 2),
+            new polygon(this.points,'green',0, 1, 5, 4),
+            new polygon(this.points, 'yellow',2, 3, 7, 6),
+            new polygon(this.points, 'blue',1, 5, 7, 3),
+            new polygon(this.points, 'purple',2, 6, 4, 0),
+            new polygon(this.points, 'cyan',5, 4, 6, 7),
         ]
     }
     project()
@@ -90,12 +92,14 @@ class box
     }
     update()
     {      
-        this.ry= 0
+        this.rx += 0.05
+        this.ry += 0.1
+        this.rz += 0.01
         if(this.x >= width/11)
         {
             this.x = -this.x
         }
-        this.x ++
+        this.x += 0.5
            console.log(this.x)
            console.log(width)
         
@@ -103,12 +107,13 @@ class box
         //this.scale = [this.sx, this.sy, this.sz]
         this.project()
         
-        /*sumz(testb.polygons)
-        testb.polygons.sort((a, b) => 
+        sumz(this.polygons)
+        this.polygons.sort((a, b) => 
         {
-            if(a.zsum > b.zsum) return -1;
-            if(a.zsum < b.zsum) return 1;
-        })*/
+            if(a.zsum > b.zsum) return 1;
+            if(a.zsum < b.zsum) return -1;
+            if(a.zsum == b.zsum) return -1;
+        })
     }
 }
 
@@ -122,13 +127,13 @@ function draw(object)
     ctx.moveTo(p[0].sx, p[0].sy)
     for(j = 1; j < p.length; j++) 
     {
-      ctx.fillStyle = "blue"
+      ctx.fillStyle = object.polygons[i].c
       let x = p[j].sx
       let y = p[j].sy
       ctx.lineTo(x,y) 
     } 
     ctx.lineTo(p[0].sx,p[0].sy)
-    //ctx.fill() 
+    ctx.fill() 
     ctx.stroke();
    
   }

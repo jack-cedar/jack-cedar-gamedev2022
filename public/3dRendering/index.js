@@ -17,20 +17,20 @@ function getMatrix(points){
     pointMatrix[i] = [p.x, p.y, p.z, p.w];
   }
   return(pointMatrix);
-}let world = []
-let numCube = 100
-for(let x = -1; x < 2; x++)
+}
+let world = []
+for(let x = -2; x < 3; x++)
 {
-  for(let y = -1; y < 2; y++)
+  for(let y = -2; y < 3; y++)
   {
-    for(let z = -1; z < 2; z++)
+    for(let z = -2; z < 3; z++)
     {
-      
       world.push(new box(x*10, y*10, 100+z*10, 5, 5, 5 ))
-      
     }
   }
 }
+
+
 
 
 document,addEventListener("mouseup", up =>{
@@ -44,6 +44,14 @@ document,addEventListener("mouseup", up =>{
 
 function render()
 {
+  world.sort(
+    (a, b) => 
+          {
+              if(a.z > b.z) return -1;
+              if(a.z < b.z) return 1;
+              if(a.zsum == b.zsum) return -1;
+          }
+  )
   
   //console.log(makeWorld(things))
   let i = 0
@@ -63,6 +71,23 @@ function update()
     requestAnimationFrame(update);    
 }
 update();
+
+function sumz(polygons)
+{
+  let p = polygons
+  for(i = 0; i < p.length; i++)
+  {
+    let sum = 0;
+    let l = p[i].points.length
+    let j = 0
+    while(j < l)
+    {
+      sum += p[i].points[j].sz 
+      j++
+    }
+    p[i].zsum = sum
+  }
+}
 
 
 
