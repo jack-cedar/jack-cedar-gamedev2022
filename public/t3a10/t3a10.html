@@ -1,15 +1,41 @@
 <html>
     <head>
         <title>Events</title>
-        <link rel="stylesheet" href="styles/style1.css">
+        <style>
+            #myDiv
+            {
+                
+                background-color: black;
+                color: white;
+                border-radius: 10%;
+                width: 100px;
+                min-height: 50px;
+                text-align: center;
+                position: absolute; 
+                display:table;
+                top: 50%;
+                right: 50%;
+            }
+            #mySpan
+            {
+                display:table;
+                margin: 0 auto;
+                display:table-cell;
+                vertical-align:middle;
+                
+            }
+            h1{
+                text-align: center;
+            }
+        </style>
     </head>
+    
     <body>
-        <h1 align=center>T3A09-events-jack</h1>
-        <a href="https://jack-cedar.github.io/mss-gamedev-jcedar/public/index.html"style =>Back to my Index</a><br></br>
         
-        <span  id="mySpan01"onmouseover="{document.getElementById('mySpan01').innerHTML= 'hi'}">Mouse over me</span><br><br>
-        <span  id="mySpan02"onclick="{document.getElementById('mySpan02').innerHTML='i have been clicked'}">click me</span><br><br>
-        <span  draggable="true" id="mySpan03" ondrag="{document.getElementById('mySpan03').innerHTML='Put me down!'}" ondragend="{document.getElementById('mySpan03').innerHTML='Thats better'}">try dragging me</span><br><br>
-
+        <h1>T3A10-events-jack</h1>
+        <div id="myDiv" draggable="true">
+            <span id="mySpan"></span>
+        </div>
+        <script src="./index.js"></script>
     </body>
 </html>
