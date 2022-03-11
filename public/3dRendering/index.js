@@ -18,25 +18,29 @@ function getMatrix(points){
   }
   return(pointMatrix);
 }
+let obj;
+async function start()
+{
+  obj = await objReader("./cube.obj")
+  drawPoints(obj.points)
+  console.log(obj)
+  update();
+}
+start()
 
 
 
+world = []
+//world.push(new box(0, 0, 50, 10, 10, 10 ))
 
-
-  world = []
-
-  for(let x = -10; x < 11; x++)
+function drawPoints(p)
+{
+  for(i = 0; i < p.length; i++ )
   {
-    for(let y = -10; y < 12; y++)
-    {
-      for(let z = 0; z < 100; z++)
-      {
-        world.push(new box(x*25, y*25, 50+z*25, 2, 2, 2 ))
-      }
-    } 
+    console.log(p)
+    ctx.arc(p[i].x, p[i].y, 5, 2 * Math.PI);
   }
-
-
+}
 function render()
 {
   /*world.sort(
@@ -59,13 +63,14 @@ function render()
 }
 function update()
 {
-    ctx.clearRect(-width / 2, -height / 2, width, height);
     
-    render()
+    ctx.clearRect(-width / 2, -height / 2, width, height);
+    drawPoints(obj)
+    //render()
     //testb.angleX += 0.01
     requestAnimationFrame(update);    
 }
-update();
+
 
 function sumz(polygons)
 {
