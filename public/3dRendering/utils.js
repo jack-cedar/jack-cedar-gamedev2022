@@ -2,23 +2,24 @@ async function objReader(objPath)
 {
     obj = await getFile(objPath)
     obj = obj.split("\n")
-    for(i = 0; i < obj.length; i++)
+    objToJson(obj)
+}
+function objToJson(objFile)
+{
+    //obj = obj.split("\n")
+    let f = objFile
+    let o;
+    for(let i = 0; i < f.length; i++)
     {
-        obj[i] = obj[i].split(" ")
-    }
-    points = []
-    for(i = 0; i < obj.length; i++)
-    {
-        switch(obj[i][0])
+        switch(f[i][0])
         {
-            case 'v':points.push(new point(obj[i][1], obj[i][2], obj[i][3]));break;
+            case 'o': o = f[i];break;
         }
     }
-    thing = function(points)
-    {
-        this.points = points
-    }
-    return(new thing(points))
+    o = o.slice(2)
+    
+    o = eval('let' + o + '=' + '{}')
+    console.log(o)
 }
 
 

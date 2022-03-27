@@ -5,7 +5,6 @@ let height = canvas.height = window.innerHeight;
 ctx.strokeStyle = "white";
 ctx.translate(width/2, height/2);
 
-console.log()
 
 let c1 = new camera
 
@@ -18,55 +17,26 @@ function getMatrix(points){
   }
   return(pointMatrix);
 }
-let obj;
+let obj01;
+let shape01;
 async function start()
 {
-  obj = await objReader("./cube.obj")
-  drawPoints(obj.points)
-  console.log(obj)
+  obj01 = await objReader("./sphere.obj")
+  //obj02 = await objReader("./cube.obj")
+  //shape01 = new Mesh(obj01)
+  //shape02 = new Mesh(obj02)
   update();
 }
 start()
 
 
-
-world = []
-//world.push(new box(0, 0, 50, 10, 10, 10 ))
-
-function drawPoints(p)
-{
-  for(i = 0; i < p.length; i++ )
-  {
-    console.log(p)
-    ctx.arc(p[i].x, p[i].y, 5, 2 * Math.PI);
-  }
-}
-function render()
-{
-  /*world.sort(
-    (a, b) => 
-          {
-              if(a.z > b.z) return -1;
-              if(a.z < b.z) return 1;
-              if(a.zsum == b.zsum) return -1;
-          }
-  )*/
-  
-  //console.log(makeWorld(things))
-  let i = 0
-  while(i < world.length)
-  {
-    world[i].update()
-    draw(world[i])
-    i++
-  }
-}
 function update()
 {
     
     ctx.clearRect(-width / 2, -height / 2, width, height);
-    drawPoints(obj)
     //render()
+    //shape01.update()
+    //shape02.update()
     //testb.angleX += 0.01
     requestAnimationFrame(update);    
 }

@@ -60,13 +60,13 @@ function rotateZ(pts, angle)
    ]
    return matMul(rotationZ, pts)
 }
-function scale(pts, x, y, z)
+function scale(pts, s)
 {
    let scale = 
    [
-      [x, 0, 0, 0],
-      [0, y, 0, 0],
-      [0, 0, z, 0],
+      [s, 0, 0, 0],
+      [0, s, 0, 0],
+      [0, 0, s, 0],
       [0, 0, 0, 1],
    ]
    return matMul(scale, pts)
