@@ -1,7 +1,4 @@
-let vertSource
-let fragSource
-
-async function init()
+async function initCanvas()
 {
     // Initalization of Canvas
     const canvas = document.getElementById("myCanvas");
@@ -15,41 +12,51 @@ async function init()
         alert("Failed to initalize WebGL, it may not be supported by your browser");
         return;
     }
-    vertSource = await getFile("vertexShader.glsl")
-    //fragSource = await getFile("fragShader.glsl")
-    console.log(vertSource)
-    return gl, screenHeight, screenWidth
+    return gl
 }
-async function start()
+
+
+
+
+
+let thing
+async function init()
 {
-    await init()
+    const gl = initCanvas()
+    thing = await objReader("sphere.obj")
+
+    let vShaderSrc = await getFile("vertexShader.glsl");
+    let fShaderSrc = await getFile("fragShader.glsl");
+    myShader = new shaderProgram(vShaderSrc, fShaderSrc);
+
+    
+
     main()
 }
-start()
 
 function main()
-{ 
-    
-    initShader()
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-}
-
-function initShader()
 {
-    const vertexShader = loadShader(gl.VERTEX_SHADER, vertSource)
-    console.log(vertexShader)
-}
+    var verts = new Float32Array(thing)
+    console.log(verts)
+    var vertBufferObj = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertBufferObj);
+    gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+    var posAttribLocation = gl.getAttribLocation(myShader.program, "vertPos");
+    gl.vertexAttribPointer
+    (
+        posAttribLocation, // attrib location
+        3,  // Number of elements per attrib
+        gl.FLOAT, // Element type
+        gl.FALSE, //is Normalized! 
+        3 * Float32Array.BYTES_PER_ELEMENT,// size of each vert
+        0// offset
 
-function loadShader(type, source)
-{
-    const shader = gl.createShader(type);
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
-   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
-        gl.deleteShader(shader);
-        return null;
-    }
-
+    )
+    gl.clearColor(0, 0, 0, 1.0)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.enableVertexAttribArray(posAttribLocation);
+    myShader.use()
+    gl.drawArrays(gl.TRIANGLES, 0, 3)
+  
 }
+init()
