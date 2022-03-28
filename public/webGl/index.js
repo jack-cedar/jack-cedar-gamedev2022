@@ -23,7 +23,7 @@ let thing
 async function init()
 {
     const gl = initCanvas()
-    thing = await objReader("sphere.obj")
+    thing = await _objParser("sphere.obj")
 
     let vShaderSrc = await getFile("vertexShader.glsl");
     let fShaderSrc = await getFile("fragShader.glsl");
@@ -36,11 +36,17 @@ async function init()
 
 function main()
 {
-    var verts = new Float32Array(thing)
-    console.log(verts)
+    var verts = new Float32Array(thing.vertArray)
+    var Indices = new Uint16Array(thing.faceArray)
+
     var vertBufferObj = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertBufferObj);
     gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
+
+    var indexBufferObj = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBufferObj);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Indices, gl.STATIC_DRAW);
+
     var posAttribLocation = gl.getAttribLocation(myShader.program, "vertPos");
     gl.vertexAttribPointer
     (
@@ -56,7 +62,7 @@ function main()
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.enableVertexAttribArray(posAttribLocation);
     myShader.use()
-    gl.drawArrays(gl.TRIANGLES, 0, 3)
+    gl.drawElements(gl.TRIANGLES, Indices.length, gl.UNSIGNED_SHORT, 0);
   
 }
 init()

@@ -1,10 +1,11 @@
-async function objReader(objPath)
+async function _objParser(objPath)
 {
     obj = await getFile(objPath)
     obj = obj.split("\n")
 
     let meshName;
     var vertArray = [];
+    var faceArray = [];
     
     for(let i = 0; i < obj.length; i++)
     {
@@ -13,36 +14,13 @@ async function objReader(objPath)
             case 'o': meshName=obj[i];meshName=meshName.slice(2);break;
             case 'v': switch(obj[i][1])
             {
-                case ' ': let temp;temp=obj[i].slice(2).split(' ');vertArray.push(parseFloat(temp[0]), parseFloat(temp[1]), parseFloat(temp[2]));break;
-            }
+                case ' ': let temp=obj[i].slice(2).split(' ');vertArray.push(parseFloat(temp[0]), parseFloat(temp[1]), parseFloat(temp[2]));break;
+            }break;
+            case 'f':let temp=obj[i].slice(2).split(' ').join('/').split('/');faceArray.push(parseInt(temp[0]), parseInt(temp[3]), parseInt(temp[6]));break;
         }
     }
-    
-    console.log(meshName)
-    console.log(vertArray)
-    //console.log(obj)
-    return vertArray
+    return {vertArray, faceArray}
 }
-
-
-function objToJson(objFile)
-{
-    //obj = obj.split("\n")
-    let f = objFile
-    let o;
-    for(let i = 0; i < f.length; i++)
-    {
-        
-    }
-   
-    
-    
-    return o
-}
-
-
-
-
 
 async function getFile(url)
 {
