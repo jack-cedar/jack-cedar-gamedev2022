@@ -1,0 +1,42 @@
+<script>
+    array = []
+    
+    function update()
+    {
+        var select = document.getElementById("select")
+        select.options.length = 0
+        for(i = 0; i < array.length;i++)
+        {
+            o = document.createElement("option")
+            o.text = "index " + i +": "+array[i]
+            select.add(o)
+            document.getElementById("output").innerHTML ="Array: "+'['+ array.toString() + ']'
+           
+        }
+        
+    }
+    document.addEventListener("keydown", event =>{
+        
+        if(event.keyCode == 13)
+        {
+            array.push(document.getElementById("input").value)
+            document.getElementById("input").value = ''
+            update()
+        }        
+    })
+</script>
+<h2>t3a11-arrays, Jack</h2>
+
+Arrays are grouped indexed variables of the same type<br>
+for example:<br>
+myArray = [6, 4, 7, 3]<br>
+index 0 or, "myArray[0]" is equal to 6 in this case and <br>
+index 1 or, "myArray[1]" is equal to 4 and so on <br>
+the index always starts at 0 <br> <br>
+Add Words to array here: <br>
+<i>press "Enter" to push</i> <br>
+<input type="text"id="input">
+<select id="select">
+    
+</select>
+<div id="output">Array: []</div>
