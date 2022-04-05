@@ -1,0 +1,10 @@
+<h1 align=center>t3a16-spy-jack using base64</h1>
+<textarea id="myArea01" rows=4 cols=70>Hello how are you</textarea><br> 
+<input type=button value="encrypt" onclick="{
+   document.getElementById('myArea02').value = btoa(document.getElementById('myArea01').value)
+}"><br><br>
+<textarea id="myArea02" rows=4 cols=70></textarea><br> 
+<input type=button value="decrypt" onclick="{
+   document.getElementById('myArea03').value = atob(document.getElementById('myArea02').value)
+}"><br><br>
+<textarea id="myArea03" rows=4 cols=70></textarea><br> 

@@ -15,10 +15,6 @@ async function initCanvas()
     return gl
 }
 
-
-
-
-
 let thing
 async function init()
 {
@@ -36,8 +32,9 @@ async function init()
 
 function main()
 {
-    var verts = new Float32Array(thing.vertArray)
-    var Indices = new Uint16Array(thing.faceArray)
+    var verts = new Float32Array(thing.verts)
+    var Indices = new Uint16Array(thing.tris)
+    
 
     var vertBufferObj = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertBufferObj);
@@ -46,6 +43,16 @@ function main()
     var indexBufferObj = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBufferObj);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Indices, gl.STATIC_DRAW);
+
+    //const normalBuffer = gl.createBuffer();
+    //gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+
+    let points =
+    [// X, Y, Y 
+        1, 2, 3,
+        4, 5, 6,
+        7, 8, 9,
+    ]
 
     var posAttribLocation = gl.getAttribLocation(myShader.program, "vertPos");
     gl.vertexAttribPointer
@@ -58,6 +65,7 @@ function main()
         0// offset
 
     )
+
     gl.clearColor(0, 0, 0, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
     gl.enableVertexAttribArray(posAttribLocation);
