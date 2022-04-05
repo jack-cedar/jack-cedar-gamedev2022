@@ -37,18 +37,19 @@ class Mesh
         this.rz = 0
         this.num = 1
         this.scale = 1
-        this.points = p.points
-        this.faces = p.faces
+        this.points = p.p
+        this.faces = p.f
         this.matrix = getMatrix(this.points)
     }
     draw()
     {
         for(let i = 0; i < this.faces.length; i++)
         {
-            let p1 = this.points[this.faces[i][0]-1]
-            let p2 = this.points[this.faces[i][1]-1]
-            let p3 = this.points[this.faces[i][2]-1]
+            let p1 = this.points[this.faces[i][0]]
+            let p2 = this.points[this.faces[i][1]]
+            let p3 = this.points[this.faces[i][2]]
             ctx.beginPath()
+          
             ctx.moveTo(p1.sx, p1.sy)
             ctx.lineTo(p2.sx,p2.sy) 
             ctx.lineTo(p3.sx,p3.sy)

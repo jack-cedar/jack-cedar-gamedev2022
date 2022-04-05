@@ -21,10 +21,9 @@ let obj01;
 let shape01;
 async function start()
 {
-  obj01 = await objReader("./sphere.obj")
-  //obj02 = await objReader("./cube.obj")
-  //shape01 = new Mesh(obj01)
-  //shape02 = new Mesh(obj02)
+  obj01 = await _objParser("./ship.obj")
+  shape01 = new Mesh(obj01)
+
   update();
 }
 start()
@@ -34,8 +33,8 @@ function update()
 {
     
     ctx.clearRect(-width / 2, -height / 2, width, height);
-    //render()
-    //shape01.update()
+    
+    shape01.update()
     //shape02.update()
     //testb.angleX += 0.01
     requestAnimationFrame(update);    
