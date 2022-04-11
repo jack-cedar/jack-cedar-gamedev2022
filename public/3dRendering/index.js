@@ -21,7 +21,7 @@ let obj01;
 let shape01;
 async function start()
 {
-  obj01 = await _objParser("./ship.obj")
+  obj01 = await _objParser("./sphere.obj")
   shape01 = new Mesh(obj01)
 
   update();
