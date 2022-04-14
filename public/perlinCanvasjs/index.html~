@@ -1,0 +1,10 @@
+<!Doctype html>
+<html>
+  <head>
+    <title>Perlin Noise</title>
+  </head>  
+  <body>
+    <canvas id="myCanvas"></canvas>
+    <script src="./index.js"></script>
+  </body>
+</html>
