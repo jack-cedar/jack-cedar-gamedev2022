@@ -14,12 +14,13 @@ class Bullet {
         
         this.colour = init_colour || "black"
     }
+  
     draw() {
         circle(this.pos.x, this.pos.y, this.size)
         fill(this.colour)
     }
     update() {
-       
+        this.check_walls()
         this.pos = this.pos.sum(this.vel)
       
         this.draw()

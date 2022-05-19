@@ -11,17 +11,20 @@ class Player {
             )
 
         this.size = init_size || 1
+
+        this.speed = 5
         
         this.colour = init_colour || "black"
+    }
+    shoot() {
+        new bullet([])
     }
     draw() {
         circle(this.pos.x, this.pos.y, this.size)
         fill(this.colour)
     }
     update() {
-       
         this.pos = this.pos.sum(this.vel)
-      
         this.draw()
     }
 }

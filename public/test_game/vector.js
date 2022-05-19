@@ -27,4 +27,20 @@ class  Vec2d {
         new_vec.y = this.y / second_vec.y
         return new_vec
     }
+    cmp(second_vec) {
+        if (this.x == second_vec.x && this.y == second_vec.y) return true
+        else return false
+    }
+    set(x, y) {
+        this.x = x
+        this.y = y
+    }
+    mag () {
+        return Math.sqrt((this.x*this.x)+(this.y*this.y))
+    }
+    nom() {
+        let new_vec = new Vec2d()
+        
+        return new_vec.div({x: this.mag, y: this.mag})
+    }
 }
