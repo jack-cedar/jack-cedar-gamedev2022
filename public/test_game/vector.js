@@ -15,7 +15,7 @@ class  Vec2d {
         new_vec.y = this.y - second_vec.y
         return new_vec
     }
-    mul(second_vec) { 
+    mul(second_vec) {
         let new_vec = new Vec2d()
         new_vec.x = this.x * second_vec.x
         new_vec.y = this.y * second_vec.y
@@ -40,7 +40,11 @@ class  Vec2d {
     }
     nom() {
         let new_vec = new Vec2d()
-        
-        return new_vec.div({x: this.mag, y: this.mag})
+        let mag = this.mag
+        let x = this.x / this.mag()
+        let y = this.y / this.mag()
+       
+        new_vec.set(x, y)
+        return(new_vec)
     }
 }

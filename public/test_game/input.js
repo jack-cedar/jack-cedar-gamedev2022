@@ -1,6 +1,7 @@
-document.addEventListener("keypress", event => keyboard_input_handler(event, "key_press"))
+document.addEventListener("keydown", event => keyboard_input_handler(event, "key_press"))
 document.addEventListener("keyup", event => keyboard_input_handler(event, "key_up"))
-document.addEventListener("click", event => mouse_input_handler(event))
+document.addEventListener("click", event => mouse_input_handler(event, "click"))
+document.addEventListener("mousemove", event => mouse_input_handler(event, "move"))
 
 let keyboard_input_handler = (event, type) => {
     switch(type) {
@@ -11,6 +12,7 @@ let keyboard_input_handler = (event, type) => {
                 case 's': player.vel.y = -player.speed; break;
                 case 'd': player.vel.x = -player.speed; break;
             } break;
+
         case "key_up":
             switch(event.key) {
                 case 'w': player.vel.y = 0; break;
@@ -20,10 +22,21 @@ let keyboard_input_handler = (event, type) => {
             }
     }
 }
-let mouse_input_handler = (event) => {
+
+let mouse_input_handler = (event, type) => {
     var canvas_box = canvas.getBoundingClientRect()
-    let x = event.clientX - canvas_box.left
-    let y = event.clientY - canvas_box.top
-    mouse_pos.set(x, y)
-    console.log(mouse_pos.nom())
+    let mouse_x = event.clientX - canvas_box.left 
+    let mouse_y = event.clientY - canvas_box.top 
+    switch(type) {
+        case "click":
+            let dir = player.pos.dif(new Vec2d(mouse_x, mouse_y)).nom()
+                
+            player.shoot(dir) 
+            clear_timer = 0
+            break;
+        case "move": aim_guide.point = new Vec2d(mouse_x, mouse_y)
+
+    }
+  
+    
 }
