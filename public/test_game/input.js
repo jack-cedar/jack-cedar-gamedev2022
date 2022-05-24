@@ -12,7 +12,6 @@ let keyboard_input_handler = (event, type) => {
                 case 's': player.vel.y = -player.speed; break;
                 case 'd': player.vel.x = -player.speed; break;
             } break;
-
         case "key_up":
             switch(event.key) {
                 case 'w': player.vel.y = 0; break;
@@ -31,12 +30,9 @@ let mouse_input_handler = (event, type) => {
         case "click":
             let dir = player.pos.dif(new Vec2d(mouse_x, mouse_y)).nom()
                 
-            player.shoot(dir) 
+            player.weapon.shoot(dir) 
             clear_timer = 0
             break;
         case "move": aim_guide.point = new Vec2d(mouse_x, mouse_y)
-
     }
-  
-    
 }

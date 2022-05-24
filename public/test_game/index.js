@@ -1,10 +1,12 @@
 existingCanvas("myCanvas")
 border("black", "solid", 1)
+translate_zero(canvas.width /2, canvas.height /2)
 
 
-let player = new Player(new Vec2d(canvas.width/2, canvas.height/2), new Vec2d(0, 0), 10)
+let player = new Player(new Vec2d(0, 0), new Vec2d(0, 0), 10, "Blue")
 let clear_timer = 0
-let bullets = []
+let projectiles = []
+
 let aim_guide = {
     point: new Vec2d(player.pos.x, player.pos.y),
     draw: () => {
@@ -14,7 +16,7 @@ let aim_guide = {
             aim_guide.point.x, 
             aim_guide.point.y
         )
-        stroke("black")
+        stroke("black", 0.5)
         circle(aim_guide.point.x, aim_guide.point.y, 5)
         stroke("red")
         line(aim_guide.point.x - 10,  aim_guide.point.y,  aim_guide.point.x + 10,  aim_guide.point.y)
@@ -26,13 +28,17 @@ let aim_guide = {
 
 let update_loop = () => {
     switch (clear_timer) {
-        case 100: clear_timer = 0; bullets = [];break;
+        case 100: 
+        clear_timer = 0; 
+        console.log(projectiles.length + " projectiles Cleared")
+        projectiles = [];break;
         default: clear_timer ++; break;   
     }
-    canvasClear()
-    player.update()
+    canvasClear(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height)
     aim_guide.draw()
-    bullets.forEach(bullet => bullet.update())
+    player.update()
+    
+    projectiles.forEach(projectile => projectile.update())
     requestAnimationFrame(update_loop)
 }
 update_loop()

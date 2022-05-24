@@ -34,14 +34,15 @@ function circle(x, y, radius) {
     canvas.ctx.arc(x, y, radius, 0, 2*Math.PI)
 }
 // fills whatever is in the buffer with the given colour
-function fill(colour) {
+function fill(colour, opacity) {
+    canvas.ctx.globalAlpha = opacity || 1
     canvas.ctx.fillStyle = colour
     canvas.ctx.fill()
 }
 // does stroke 
-function stroke(colour, lineWidth) {
-    this.lineWidth = lineWidth || 1
-    canvas.ctx.lineWidth = this.lineWidth
+function stroke(colour, opacity, line_width) {
+    canvas.ctx.globalAlpha = opacity || 1
+    canvas.ctx.lineWidth = line_width || 1
     canvas.ctx.strokeStyle = colour
     canvas.ctx.stroke()
 
@@ -73,8 +74,8 @@ function line(x1, y1, x2, y2) {
     canvas.ctx.lineTo(x2, y2)
 }
 // clears the canvas
-function canvasClear() {
-    canvas.ctx.clearRect(0, 0, canvas.width, canvas.height)
+function canvasClear(x1, y1, x2, y2) {
+    canvas.ctx.clearRect(x1 || 0, y1 || 0, x2 || canvas.width, y2 || canvas.height)
 }
 // creates a path of points from a array of points
 function pointPath(points) {
