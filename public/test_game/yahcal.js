@@ -4,6 +4,7 @@ function NewCanvas(width, height) {
     this.canvas.width = width
     this.canvas.height = height
     this.canvas.ctx = this.canvas.getContext('2d')
+    canvas.ctx.zero_offset = [0, 0]
     
     document.body.appendChild(this.canvas)
 }
@@ -11,6 +12,7 @@ function NewCanvas(width, height) {
 function existingCanvas(id) {
     this.canvas = document.getElementById(id)
     this.canvas.ctx = this.canvas.getContext('2d')
+    canvas.ctx.zero_offset = [0, 0]
 }
 // changes the background colour of the canvas
 function background(colour) {
@@ -106,5 +108,8 @@ function write(text, size, x, y, font) {
 }
 
 function translate_zero (x, y) {
+ 
     canvas.ctx.translate(x, y)
+    canvas.ctx.zero_offset[0] += x
+    canvas.ctx.zero_offset[1] += y
 }

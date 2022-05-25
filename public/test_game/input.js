@@ -1,6 +1,7 @@
 document.addEventListener("keydown", event => keyboard_input_handler(event, "key_press"))
 document.addEventListener("keyup", event => keyboard_input_handler(event, "key_up"))
-document.addEventListener("click", event => mouse_input_handler(event, "click"))
+document.addEventListener("mousedown", event => mouse_input_handler(event, "click"))
+document.addEventListener("mouseup", event => mouse_input_handler(event, "release"))
 document.addEventListener("mousemove", event => mouse_input_handler(event, "move"))
 
 let keyboard_input_handler = (event, type) => {
@@ -24,15 +25,12 @@ let keyboard_input_handler = (event, type) => {
 
 let mouse_input_handler = (event, type) => {
     var canvas_box = canvas.getBoundingClientRect()
-    let mouse_x = event.clientX - canvas_box.left 
-    let mouse_y = event.clientY - canvas_box.top 
+    let mouse_x = event.clientX - canvas_box.left - canvas.ctx.zero_offset[0]
+    let mouse_y = event.clientY - canvas_box.top - canvas.ctx.zero_offset[1]
     switch(type) {
-        case "click":
-            let dir = player.pos.dif(new Vec2d(mouse_x, mouse_y)).nom()
-                
-            player.weapon.shoot(dir) 
-            clear_timer = 0
-            break;
-        case "move": aim_guide.point = new Vec2d(mouse_x, mouse_y)
+        case "click": player.weapon.active = true;break;
+        case "release": player.weapon.active = false;break;
+        case "move": 
+            aim_guide.point = new Vec2d(mouse_x, mouse_y);break;
     }
 }
