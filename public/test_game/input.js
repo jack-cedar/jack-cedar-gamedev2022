@@ -31,6 +31,9 @@ let mouse_input_handler = (event, type) => {
         case "click": player.weapon.active = true;break;
         case "release": player.weapon.active = false;break;
         case "move": 
-            aim_guide.point = new Vec2d(mouse_x, mouse_y);break;
+            aim_guide.point = new Vec2d(mouse_x, mouse_y);
+            mouse_dir = player.pos.dif(aim_guide.point).nom()
+            break;
+
     }
 }

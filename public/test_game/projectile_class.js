@@ -6,6 +6,7 @@ class Projectile {
         this.colour = init_colour || "black"
         this.lifetime = 20
         this.death_frame = current_frame + this.lifetime
+        this.damage = 20
     }
     check_walls() {
         if(this.pos.x > canvas.width / 2 || this.pos.x < -canvas.width / 2) {
@@ -15,13 +16,24 @@ class Projectile {
             this.pos.y = -this.pos.y
         } 
     }
-  
+    check_hit() {
+        enemies.forEach(enemy => {
+            let distance = enemy.pos.dif(this.pos).mag()
+
+            console.log(distance)
+            if(distance <= this.size + enemy.size) {
+                enemy.hit(this.damage)
+                this.death_frame = current_frame
+            }
+        });
+    }
     draw() {
         circle(this.pos.x, this.pos.y, this.size)
         fill(this.colour)
     }
     update() {
         this.pos = this.pos.sum(this.vel)
+        this.check_hit()
         this.check_walls()
         this.draw()
     }
