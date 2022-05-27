@@ -1,11 +1,13 @@
 class Weapon {
-    constructor (init_projectile_speed) {
-        this.projectile_speed = init_projectile_speed
-        this.projectile_ammount = 1
-        this.projectile_spread = 0
-        this.projectile_size = 5
+    constructor (name, firerate, projectile_ammount, projectile_spread, projectile_size, projectile_speed, projectile_lifetime) {
+        this.name = name
+        this.projectile_speed = projectile_speed
+        this.projectile_ammount = projectile_ammount
+        this.projectile_spread = projectile_spread
+        this.projectile_size = projectile_size
+        this.projectile_lifetime = projectile_lifetime
 
-        this.firerate = 5
+        this.firerate = firerate
         this.action_delay = fps / this.firerate
         this.next_action_frame = 0
         this.active = false
@@ -26,7 +28,9 @@ class Weapon {
                                 rand(-this.projectile_spread, this.projectile_spread)
                                 )
                                 ),
-                        this.projectile_size
+                        this.projectile_size,
+                        "black",
+                        this.projectile_lifetime
                         )
                     );
                     this.next_action_frame = current_frame + this.action_delay

@@ -5,7 +5,7 @@ class Player {
         this.size = init_size
         this.speed = 2
         this.colour = init_colour || "black"
-        this.weapon = new Weapon(10)
+        this.weapon = handgun
     }
     check_walls() {
         if(this.pos.x > canvas.width / 2 || this.pos.x < -canvas.width / 2) {

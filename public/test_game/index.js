@@ -4,6 +4,9 @@ translate_zero(canvas.width /2, canvas.height /2)
 
 let start_time
 let fps = 0
+let current_weapon_index = 0
+
+let handgun = new Weapon("handgun",5, 1, 1, 5, 15, 20)
 
 
 let player = new Player(new Vec2d(0, 0), new Vec2d(0, 0), 10, "Blue")
@@ -11,12 +14,16 @@ let current_frame = 0
 let projectiles = []
 let enemies = []
 
-let num_enemies = 10
-for (let i = 0 ; i < num_enemies; i++) {
-    let pos = new Vec2d(rand(-300, 300), rand(-200, 200))
-    let vel = new Vec2d(vari(), vari())
-    enemies.push(new Enemy(pos, vel))
+let weapon_list = []
+
+async function init() {
+    let weapons = await (await fetch("weapon_config.json")).json()
+    weapons.forEach(weapon => {
+        weapon_list.push(Object.assign(new Weapon, weapon))
+    });
+    update_loop()
 }
+init()
 
 let aim_guide = {
     point: new Vec2d(player.pos.x, player.pos.y),
@@ -36,8 +43,15 @@ let aim_guide = {
         stroke("red")
     }
 }
+
+let num_enemies = 10
+for (let i = 0 ; i < num_enemies; i++) {
+    let pos = new Vec2d(rand(-300, 300), rand(-200, 200))
+    let vel = new Vec2d(vari(), vari())
+    enemies.push(new Enemy(pos, vel))
+}
+
 let mouse_dir = player.pos.dif(aim_guide.point).nom()
-console.log(aim_guide.point)
 
 
 let update_loop = (time) => {
@@ -56,4 +70,4 @@ let update_loop = (time) => {
     enemies.forEach(enemy => enemy.update())
     requestAnimationFrame(update_loop)
 }
-update_loop()
+

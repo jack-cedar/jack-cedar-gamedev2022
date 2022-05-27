@@ -1,0 +1,20 @@
+[
+    {
+        "name": "shotgun",
+        "firerate": 5,
+        "projectile_ammount": 3, 
+        "projectile_spread": 1,
+        "projectile_speed": 10,
+        "projectile_size": 5,
+        "projectile_lifetime": 10 
+    },
+    {
+        "name": "handgun",
+        "firerate": 5,
+        "projectile_ammount": 3, 
+        "projectile_spread": 1,
+        "projectile_speed": 10,
+        "projectile_size": 5,
+        "projectile_lifetime": 10 
+    }
+]

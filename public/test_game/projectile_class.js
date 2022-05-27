@@ -1,10 +1,10 @@
 class Projectile {
-    constructor(init_pos, init_vel, init_size, init_colour) {
+    constructor(init_pos, init_vel, init_size, init_colour, lifetime) {
         this.pos = init_pos
         this.vel = init_vel
         this.size = init_size || 1
         this.colour = init_colour || "black"
-        this.lifetime = 20
+        this.lifetime = lifetime
         this.death_frame = current_frame + this.lifetime
         this.damage = 20
     }
@@ -20,7 +20,6 @@ class Projectile {
         enemies.forEach(enemy => {
             let distance = enemy.pos.dif(this.pos).mag()
 
-            console.log(distance)
             if(distance <= this.size + enemy.size) {
                 enemy.hit(this.damage)
                 this.death_frame = current_frame

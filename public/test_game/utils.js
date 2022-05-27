@@ -4,3 +4,4 @@ let rand = (min, max) => {
 let vari = () => {
     return rand(-1, 1)
 }
+

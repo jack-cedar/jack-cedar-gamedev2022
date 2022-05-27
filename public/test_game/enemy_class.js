@@ -19,6 +19,7 @@ class Enemy {
         fill(this.colour, this.health / 100)
     }
     update() { 
+       
         this.pos = this.pos.sum(this.vel)
         this.draw() 
     }
