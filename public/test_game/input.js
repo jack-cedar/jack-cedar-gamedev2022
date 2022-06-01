@@ -30,12 +30,14 @@ let mouse_input_handler = (event, type) => {
     var canvas_box = canvas.getBoundingClientRect()
     let mouse_x = event.clientX - canvas_box.left - canvas.ctx.zero_offset[0]
     let mouse_y = event.clientY - canvas_box.top - canvas.ctx.zero_offset[1]
+    cursor.pos.x = mouse_x
+    cursor.pos.y = mouse_y
     switch(type) {
         case "click": player.weapon.active = true;break;
         case "release": player.weapon.active = false;break;
         case "move": 
             cursor.pos = new Vec2d(mouse_x, mouse_y);
-            cursor.dir = player.pos.dif(cursor.pos).nom()
+            cursor.dir = game.player.pos.dif(cursor.pos).nom()
             break;
 
     }

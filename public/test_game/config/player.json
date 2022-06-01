@@ -1,2 +1,7 @@
 {
+    "size": 15,
+    "colour": "green",
+    "speed": 10,
+    "weapon": "handgun",
+    "stopping_force": 1
 }

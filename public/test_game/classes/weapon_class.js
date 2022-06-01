@@ -12,11 +12,12 @@ class Weapon {
         this.next_action_frame = 0
         this.active = false
     }
-    shoot(dir) {
-        this.action_delay = fps / this.firerate
-        if (this.next_action_frame < current_frame)
+    shoot() {
+        dir = game.player.pos.dif(cursor.pos).nom()
+        this.action_delay = game.fps / this.firerate
+        if (this.next_action_frame < game.current_frame)
             for(let i = 0; i < this.projectile_ammount; i++){
-                projectiles.push(
+                game.projectiles.push(
                     new Projectile(
                         new Vec2d(player.pos.x, player.pos.y),
                         dir.mul(
@@ -33,7 +34,7 @@ class Weapon {
                         this.projectile_lifetime
                         )
                     );
-                    this.next_action_frame = current_frame + this.action_delay
+                    this.next_action_frame = game.current_frame + this.action_delay
             } 
       
     }

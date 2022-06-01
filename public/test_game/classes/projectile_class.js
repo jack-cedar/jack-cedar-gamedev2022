@@ -5,7 +5,7 @@ class Projectile {
         this.size = init_size || 1
         this.colour = init_colour || "black"
         this.lifetime = lifetime
-        this.death_frame = current_frame + this.lifetime
+        this.death_frame = game.current_frame + this.lifetime
         this.damage = 20
     }
     check_walls() {
@@ -17,11 +17,11 @@ class Projectile {
         } 
     }
     check_hit() {
-        enemies.forEach(enemy => {
-            let distance = enemy.pos.dif(this.pos).mag()
+        game.enemies.forEach(enemy => {
+            let distance = game.enemy.pos.dif(this.pos).mag()
 
             if(distance <= this.size + enemy.size) {
-                enemy.hit(this.damage)
+                game.enemy.hit(this.damage)
                 this.death_frame = current_frame
             }
         });

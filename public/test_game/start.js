@@ -4,8 +4,11 @@ let game = {
     start_time: undefined,
     current_frame: 0,
     weapon_list: [],
+    projectiles:[],
+    enemies:[],
     player: {},
 }
+
 
 let start = async () => {
     await init() 
@@ -15,6 +18,7 @@ let start = async () => {
     start_input()
     update()
 }
+start()
 
 let update = (time) => {
     // increment the frame counter
@@ -25,8 +29,11 @@ let update = (time) => {
     // Clear the screen
     canvasClear(-canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height)
     // Update & render
+    update_projectiles()
     game.player.update()
     cursor.draw()
+   
+  
+    //console.log(game.projectiles)
     requestAnimationFrame(update)
 }
-start()

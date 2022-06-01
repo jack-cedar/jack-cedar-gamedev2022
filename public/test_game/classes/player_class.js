@@ -1,13 +1,11 @@
 class Player {
-    constructor(init_pos, init_vel, init_size, init_colour) {
-        this.pos = init_pos
-        this.vel = init_vel
-        this.size = init_size
-        this.speed = 2
-        this.colour = init_colour || "black"
-        this.weapon_index = 0
-        this.weapon = game.weapon_list[this.weapon_index]
-        console.log(game.weapon_list[0])
+    constructor(size, colour, speed, weapon) {
+        this.pos = new Vec2d(0, 0)
+        this.vel =  new Vec2d(0, 0)
+        this.size = size
+        this.speed = speed
+        this.colour = colour
+        this.weapon= weapon
     }
     check_walls() {
         if(this.pos.x > canvas.width / 2 || this.pos.x < -canvas.width / 2) {
@@ -17,13 +15,16 @@ class Player {
             this.pos.y = -this.pos.y
         }
     }
+    change_weapon(weapon_name) {
+        this.weapon = game.weapon_list.filter(w => w.name === weapon_name)[0]
+    }
     draw() {
         circle(this.pos.x, this.pos.y, this.size)
         fill(this.colour)
     }
     update() {
-        //if(this.weapon.active) this.weapon.shoot(mouse_dir)
-        //this.weapon = game.weapon_list[this.weapon_index]
+        if(this.weapon.active) this.weapon.shoot()
+        
        
         this.pos = this.pos.sum(this.vel)
         this.check_walls()
