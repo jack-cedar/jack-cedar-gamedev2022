@@ -10,10 +10,10 @@ let keyboard_input_handler = (event, type) => {
     switch(type) {
         case "key_press":
             switch(event.key) {
-                case 'w': player.vel.y =  player.speed; break;
-                case 'a': player.vel.x =  player.speed; break;
-                case 's': player.vel.y = -player.speed; break;
-                case 'd': player.vel.x = -player.speed; break;
+                case 'w': player.vel.y =  1; break;
+                case 'a': player.vel.x =  1; break;
+                case 's': player.vel.y = -1; break;
+                case 'd': player.vel.x = -1; break;
             } break;
         case "key_up":
             switch(event.key) {
@@ -28,8 +28,9 @@ let keyboard_input_handler = (event, type) => {
 let mouse_input_handler = (event, type) => {
     player = game.player
     var canvas_box = canvas.getBoundingClientRect()
-    let mouse_x = event.clientX - canvas_box.left - canvas.ctx.zero_offset[0]
-    let mouse_y = event.clientY - canvas_box.top - canvas.ctx.zero_offset[1]
+
+    let mouse_x = event.clientX - canvas_box.left - canvas.zero_offset[0]
+    let mouse_y = event.clientY - canvas_box.top  - canvas.zero_offset[1]
     cursor.pos.x = mouse_x
     cursor.pos.y = mouse_y
     switch(type) {

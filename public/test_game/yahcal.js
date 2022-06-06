@@ -4,7 +4,6 @@ function NewCanvas(width, height) {
     this.canvas.width = width
     this.canvas.height = height
     this.canvas.ctx = this.canvas.getContext('2d')
-    canvas.ctx.zero_offset = [0, 0]
     
     document.body.appendChild(this.canvas)
 }
@@ -12,7 +11,6 @@ function NewCanvas(width, height) {
 function existingCanvas(id) {
     this.canvas = document.getElementById(id)
     this.canvas.ctx = this.canvas.getContext('2d')
-    canvas.ctx.zero_offset = [0, 0]
 }
 // changes the background colour of the canvas
 function background(colour) {
@@ -97,19 +95,62 @@ function customCircle(x, y, sides, radius) {
     }
     pointPath(points)
 }
-// basic text writing funtion, NEEDS WORK!!!!!
-function write(text, size, x, y, font) {
-    this.x = x || 5
-    this.y = y || 30
-    this.size = size || 30
-    canvas.ctx.font = font || this.size+"px Arial"
-    console.log(canvas.ctx.font)
-    canvas.ctx.fillText(text, this.x, this.y)
-}
 
 function translate_zero (x, y) {
- 
+    canvas.zero_offset = [x, y]
     canvas.ctx.translate(x, y)
-    canvas.ctx.zero_offset[0] += x
-    canvas.ctx.zero_offset[1] += y
+}
+
+function TextBox(x, y, font, font_size, width, text_colour) {
+    this.x = x
+    this.y = y
+    this.width = width
+    this.buffer = "";
+    this.size = font_size
+    this.font = font
+    this.lines
+    this.text_colour = text_colour || "black"
+    
+
+    this.write = (text) => {
+        this.buffer = ""
+        this.buffer += text
+        let regex = new RegExp('.{1,'+this.width+'}', 'g') 
+        this.buffer = this.buffer.match(regex)
+        this.lines = this.buffer.length
+        this.buffer = this.buffer.join('\n')//.replace(/(\n\s)|(\n)/g, '\n').match(regex)
+        console.log(this.buffer)
+        //.match(regex).join('\n')
+        canvas.ctx.font = this.size+ 'px '+this.font
+        canvas.ctx.fillStyle = this.text_colour
+        this.update(this.buffer)
+    }
+    this.writeln = (text) => {this.write(text); this.buffer += '\n'}
+    this.update = () => {
+        let temp_buffer = ""
+        let line = 1
+        for (let i = 0; i < this.buffer.length; i++) {
+            let char = this.buffer[i]
+            switch(char) {
+                case '\n': {
+                    canvas.ctx.fillText(temp_buffer, this.x, this.y + (line * this.size));
+                    temp_buffer = ""
+                    line++ } break;
+                default: temp_buffer += char;break;
+            }
+        } 
+       
+        canvas.ctx.fillText(temp_buffer, this.x, this.y + (line * this.size));
+    }
+    this.clear = () => {this.buffer = ""; this.update()}
+
+    this.border = {
+        colour: "black",
+
+        draw: () => {
+            rect(this.x, this.y, this.size*this.width, this.size*this.lines)
+            stroke(this.border.colour)
+        }
+    }
+    
 }

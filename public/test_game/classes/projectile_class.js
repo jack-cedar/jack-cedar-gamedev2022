@@ -18,11 +18,11 @@ class Projectile {
     }
     check_hit() {
         game.enemies.forEach(enemy => {
-            let distance = game.enemy.pos.dif(this.pos).mag()
+            let distance = enemy.pos.dif(this.pos).mag()
 
             if(distance <= this.size + enemy.size) {
-                game.enemy.hit(this.damage)
-                this.death_frame = current_frame
+                enemy.hit(this.damage)
+                this.death_frame = game.current_frame
             }
         });
     }

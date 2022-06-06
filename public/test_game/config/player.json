@@ -1,7 +1,7 @@
 {
     "size": 15,
-    "colour": "green",
-    "speed": 10,
-    "weapon": "handgun",
-    "stopping_force": 1
+    "colour":"green",
+    "speed": 5,
+    "max_speed": 10,
+    "weapon": "shotgun"
 }

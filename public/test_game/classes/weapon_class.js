@@ -12,7 +12,7 @@ class Weapon {
         this.next_action_frame = 0
         this.active = false
     }
-    shoot() {
+    shoot(dir) {
         dir = game.player.pos.dif(cursor.pos).nom()
         this.action_delay = game.fps / this.firerate
         if (this.next_action_frame < game.current_frame)
@@ -36,6 +36,5 @@ class Weapon {
                     );
                     this.next_action_frame = game.current_frame + this.action_delay
             } 
-      
     }
 }
