@@ -10,6 +10,7 @@ class Enemy {
     }
     hit(damage) {
         this.health -= damage 
+       
         if (this.health <= 0) this.on_death()
     }
     on_death() {
@@ -17,7 +18,7 @@ class Enemy {
         let particles = 5
         let particle_speed = 5
         for(let i = 0; i < particles; i++) {
-            game.particles.push(new Particle(
+            game.entities.push(new Particle(
                 this.pos,
                 new Vec2d(vari(),vari()).mul(new Vec2d(particle_speed, particle_speed)),
                 5,
@@ -31,14 +32,20 @@ class Enemy {
        return(game.player.pos.dif(this.pos).nom().inv())
     }
     check_collide() {
-        let detect_radius = 50
-        game.enemies.forEach(e => {
+        let detect_radius = 25
+        game.entities.forEach(e => {
             let distance =e.pos.dif(this.pos).mag()
-            //console.log(distance)
-          
-            if(distance <= detect_radius && distance != 0) {
-                this.vel = this.vel.sum(this.pos.dif(e.pos).nom().mul(new Vec2d(0.5,0.5)))
+            switch (e.constructor.name) {
+                case "Enemy": if(distance <= detect_radius && distance != 0) {
+                    this.vel = this.vel.sum(this.pos.dif(e.pos).nom().mul(new Vec2d(0.5,0.5)));
+                }  break;
+                case "Projectile":if (distance <= 50){ 
+                    this.vel = this.vel.sum(this.pos.dif(e.pos).nom().mul(new Vec2d(2.5,2.5)))
+                }; break;
+
             }
+          
+            
     
         })
 
@@ -51,7 +58,7 @@ class Enemy {
     }
     update() { 
         this.vel = this.chase().mul(new Vec2d(this.speed, this.speed))
-       this.check_collide()
+        this.check_collide()
       
         
        

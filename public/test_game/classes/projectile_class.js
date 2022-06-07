@@ -7,6 +7,8 @@ class Projectile {
         this.lifetime = lifetime
         this.death_frame = game.current_frame + this.lifetime
         this.damage = 20
+        this.is_alive = true
+        this.enemies_hit = 0
     }
     check_walls() {
         if(this.pos.x > canvas.width / 2 || this.pos.x < -canvas.width / 2) {
@@ -17,12 +19,14 @@ class Projectile {
         } 
     }
     check_hit() {
-        game.enemies.forEach(enemy => {
+        game.entities.filter(e => e instanceof Enemy).forEach(enemy => {
             let distance = enemy.pos.dif(this.pos).mag()
-
             if(distance <= this.size + enemy.size) {
                 enemy.hit(this.damage)
-                this.death_frame = game.current_frame
+                this.enemies_hit ++
+                if(this.enemies_hit >= this.pierce) {
+                    this.death_frame = game.current_frame
+                }
             }
         });
     }
@@ -31,8 +35,10 @@ class Projectile {
         fill(this.colour)
     }
     update() {
-        this.pos = this.pos.sum(this.vel)
         this.check_hit()
+        if (game.current_frame >= this.death_frame){this.is_alive = false}
+        this.pos = this.pos.sum(this.vel)
+        
         this.check_walls()
         this.draw()
     }
