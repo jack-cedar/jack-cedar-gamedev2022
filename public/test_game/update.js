@@ -17,28 +17,15 @@ let cursor = {
             stroke("red")
     }
 }
-let update_projectiles = () => {
-    game.projectiles = game.projectiles.filter(p => game.current_frame <= p.death_frame )
-    game.projectiles.forEach(projectile => projectile.update())
+let update_entities = () => {
+    game.entities = game.entities.filter(e => e.is_alive )
+    game.entities.forEach(e => e.update())
 
 } 
-let update_particles = () => {
-    game.particles = game.particles.filter(p => game.current_frame <= p.death_frame )
-    game.particles.forEach(particle => particle.update())
-
-} 
-let update_enemies = () => {
-    game.enemies = game.enemies.filter(e => e.is_alive)
-    game.enemies.forEach(enemy => enemy.update())
-}
-
-
 //let textbox = new TextBox(100, 100, 'arial', 15, 5)
 //textbox.border.colour = "black"
 let draw = () => {
-    update_enemies()
-    update_projectiles()
-    update_particles()
+    update_entities()
   
     game.player.update()
    

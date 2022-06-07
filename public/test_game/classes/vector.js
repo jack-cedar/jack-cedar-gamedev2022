@@ -47,4 +47,11 @@ class  Vec2d {
         new_vec.set(x, y)
         return(new_vec)
     }
+    inv() {
+        let new_vec = new Vec2d()
+        let x = -this.x
+        let y = -this.y
+        new_vec.set(x, y)
+        return(new_vec)
+    }
 }

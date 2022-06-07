@@ -1,9 +1,9 @@
 class Enemy {
-    constructor(init_pos, init_vel, init_size, init_colour) {
+    constructor(init_pos, init_vel, init_size, speed, init_colour) {
         this.pos = init_pos
         this.vel = init_vel
         this.size = init_size | 10
-        this.speed = 5
+        this.speed = 3
         this.is_alive = true
         this.colour = init_colour || "red"
         this.health = 100
@@ -12,21 +12,13 @@ class Enemy {
         this.health -= damage 
         if (this.health <= 0) this.on_death()
     }
-    check_walls() {
-        if(this.pos.x > canvas.width / 2 || this.pos.x < -canvas.width / 2) {
-            this.pos.x = -this.pos.x 
-        }
-        if(this.pos.y > canvas.height / 2 || this.pos.y < -canvas.height / 2) {
-            this.pos.y = -this.pos.y
-        }
-    }
     on_death() {
         this.is_alive = false 
         let particles = 5
         let particle_speed = 5
         for(let i = 0; i < particles; i++) {
             game.particles.push(new Particle(
-                this.pos, 
+                this.pos,
                 new Vec2d(vari(),vari()).mul(new Vec2d(particle_speed, particle_speed)),
                 5,
                 "red",
@@ -36,8 +28,20 @@ class Enemy {
         }
     }
     chase() {
-        let dir = game.player.pos.dif(this.pos).nom().mul(new Vec2d(-this.speed, -this.speed))
-        this.vel = dir
+       return(game.player.pos.dif(this.pos).nom().inv())
+    }
+    check_collide() {
+        let detect_radius = 50
+        game.enemies.forEach(e => {
+            let distance =e.pos.dif(this.pos).mag()
+            //console.log(distance)
+          
+            if(distance <= detect_radius && distance != 0) {
+                this.vel = this.vel.sum(this.pos.dif(e.pos).nom().mul(new Vec2d(0.5,0.5)))
+            }
+    
+        })
+
 
     }
     draw() {
@@ -46,9 +50,17 @@ class Enemy {
         fill(this.colour, this.health / 100)
     }
     update() { 
+        this.vel = this.chase().mul(new Vec2d(this.speed, this.speed))
+       this.check_collide()
+      
+        
+       
         this.pos = this.pos.sum(this.vel)
-        this.chase()
+        
+       
         this.draw() 
+
+      
        
     }
 }

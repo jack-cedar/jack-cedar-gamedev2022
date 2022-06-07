@@ -17,7 +17,7 @@ class Weapon {
         this.action_delay = game.fps / this.firerate
         if (this.next_action_frame < game.current_frame)
             for(let i = 0; i < this.projectile_ammount; i++){
-                game.projectiles.push(
+                game.entities.push(
                     new Projectile(
                         new Vec2d(player.pos.x, player.pos.y),
                         dir.mul(
