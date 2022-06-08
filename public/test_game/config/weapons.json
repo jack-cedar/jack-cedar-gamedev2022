@@ -27,17 +27,18 @@
         "projectile_speed": 30,
         "projectile_size": 7,
         "projectile_lifetime": 25,
-        "projectile_damage": 50
+        "projectile_damage": 50,
+        "pierce": 1000
     },
     {
         "name": "cannon",
         "firerate": 1,
         "projectile_ammount": 1, 
-        "projectile_spread": 0.5,
+        "projectile_spread": 1,
         "projectile_speed": 2,
         "projectile_size": 20,
         "projectile_lifetime": 100,
-        "projectile_damage": 100,
-        "pierce": 1
+        "projectile_damage": 20,
+        "pierce": 20
     }
 ]

@@ -1,14 +1,15 @@
 class Projectile {
-    constructor(init_pos, init_vel, init_size, init_colour, lifetime) {
+    constructor(damage, init_pos, init_vel, init_size, init_colour, lifetime, pierce) {
         this.pos = init_pos
         this.vel = init_vel
         this.size = init_size || 1
         this.colour = init_colour || "black"
         this.lifetime = lifetime
         this.death_frame = game.current_frame + this.lifetime
-        this.damage = 20
+        this.damage = damage
         this.is_alive = true
         this.enemies_hit = 0
+        this.pierce = pierce
     }
     check_walls() {
         if(this.pos.x > canvas.width / 2 || this.pos.x < -canvas.width / 2) {

@@ -11,6 +11,8 @@ class Weapon {
         this.action_delay = game.fps / this.firerate
         this.next_action_frame = 0
         this.active = false
+        this.pierce
+        this.damage
     }
     shoot(dir) {
         dir = game.player.pos.dif(cursor.pos).nom()
@@ -19,6 +21,7 @@ class Weapon {
             for(let i = 0; i < this.projectile_ammount; i++){
                 game.entities.push(
                     new Projectile(
+                        this.projectile_damage,
                         new Vec2d(player.pos.x, player.pos.y),
                         dir.mul(
                             new Vec2d(
@@ -31,7 +34,8 @@ class Weapon {
                                 ),
                         this.projectile_size,
                         "black",
-                        this.projectile_lifetime
+                        this.projectile_lifetime,
+                        this.pierce
                         )
                     );
                     this.next_action_frame = game.current_frame + this.action_delay

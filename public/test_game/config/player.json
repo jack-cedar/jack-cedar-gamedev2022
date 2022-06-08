@@ -3,5 +3,6 @@
     "colour":"green",
     "speed": 5,
     "max_speed": 10,
-    "weapon": "cannon"
+    "weapon": "cannon",
+    "health": 100
 }
