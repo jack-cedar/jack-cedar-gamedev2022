@@ -1,0 +1,44 @@
+[
+    {
+        "name": "shotgun",
+        "firerate": 2,
+        "projectile_ammount": 100, 
+        "projectile_spread": 2,
+        "projectile_speed": 10,
+        "projectile_size": 3,
+        "projectile_lifetime": 10, 
+        "projectile_damage": 10
+    },
+    {
+        "name": "handgun",
+        "firerate": 5,
+        "projectile_ammount": 1, 
+        "projectile_spread": 1,
+        "projectile_speed": 15,
+        "projectile_size": 5,
+        "projectile_lifetime": 15, 
+        "projectile_damage": 20
+    },
+    {
+        "name": "sniper",
+        "firerate": 1,
+        "projectile_ammount": 1, 
+        "projectile_spread": 0.5,
+        "projectile_speed": 30,
+        "projectile_size": 7,
+        "projectile_lifetime": 25,
+        "projectile_damage": 50,
+        "pierce": 1000
+    },
+    {
+        "name": "cannon",
+        "firerate": 100,
+        "projectile_ammount": 1, 
+        "projectile_spread": 1,
+        "projectile_speed": 2,
+        "projectile_size": 20,
+        "projectile_lifetime": 100,
+        "projectile_damage": 50,
+        "pierce": 20
+    }
+]
